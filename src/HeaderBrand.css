@@ -1,0 +1,361 @@
+/* =========================================================
+   SHUBHAM CHINGUDE PHOTOFILMS
+   PREMIUM HEADER TYPOGRAPHY
+========================================================= */
+
+
+/* =========================================================
+   MAIN HEADER
+========================================================= */
+
+.navbar {
+  backdrop-filter:
+    blur(18px);
+
+  -webkit-backdrop-filter:
+    blur(18px);
+}
+
+
+/* =========================================================
+   BRAND LOGO WRAPPER
+========================================================= */
+
+.navbar .brand-logo {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   SC MONOGRAM
+========================================================= */
+
+.navbar .brand-logo > span {
+  position: relative;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: 48px;
+
+  color: #dfb879;
+
+  font-family:
+    "Bodoni MT",
+    Didot,
+    "Times New Roman",
+    Georgia,
+    serif;
+
+  font-size: 31px;
+
+  font-weight: 400;
+
+  line-height: 1;
+
+  letter-spacing: -2px;
+
+  text-shadow:
+    0 0 22px
+    rgba(213, 163, 95, 0.16);
+}
+
+
+/* little luxury divider */
+
+.navbar .brand-logo > span::after {
+  content: "";
+
+  position: absolute;
+
+  top: 50%;
+  right: -8px;
+
+  width: 1px;
+
+  height: 32px;
+
+  transform:
+    translateY(-50%);
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(213, 163, 95, 0.55),
+      transparent
+    );
+}
+
+
+/* =========================================================
+   BRAND TEXT
+========================================================= */
+
+.navbar .brand-logo > div {
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  gap: 3px;
+}
+
+
+.navbar .brand-logo strong {
+  display: block;
+
+  color: #eee5da;
+
+  font-family:
+    "Bodoni MT",
+    Didot,
+    "Times New Roman",
+    Georgia,
+    serif;
+
+  font-size: 15px;
+
+  font-weight: 400;
+
+  line-height: 1;
+
+  letter-spacing: 1.4px;
+
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+
+.navbar .brand-logo small {
+  display: block;
+
+  color: #b78950;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 5.5px;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  letter-spacing: 5.2px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   PREMIUM NAV LINKS
+========================================================= */
+
+.navbar nav {
+  align-items: center;
+}
+
+
+.navbar nav a {
+  position: relative;
+
+  padding:
+    8px
+    2px;
+
+  color: #a9a096;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 8px;
+
+  font-weight: 500;
+
+  letter-spacing: 2.4px;
+
+  text-transform: uppercase;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+.navbar nav a:hover {
+  color: #ead7bc;
+
+  transform:
+    translateY(-1px);
+}
+
+
+.navbar nav a.active {
+  color: #d5a35f;
+}
+
+
+/* gold active line */
+
+.navbar nav a::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: -2px;
+
+  width: 0;
+
+  height: 1px;
+
+  transform:
+    translateX(-50%);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #d5a35f,
+      transparent
+    );
+
+  transition:
+    width 0.35s ease;
+}
+
+
+.navbar nav a:hover::after,
+.navbar nav a.active::after {
+  width: 100%;
+}
+
+
+/* =========================================================
+   SUBTLE BRAND HOVER
+========================================================= */
+
+.navbar .brand-logo > span,
+.navbar .brand-logo strong,
+.navbar .brand-logo small {
+  transition:
+    color 0.35s ease,
+    text-shadow 0.35s ease;
+}
+
+
+.navbar .brand-logo:hover > span {
+  color: #f0ca8c;
+
+  text-shadow:
+    0 0 24px
+    rgba(213, 163, 95, 0.28);
+}
+
+
+.navbar .brand-logo:hover strong {
+  color: #ffffff;
+}
+
+
+.navbar .brand-logo:hover small {
+  color: #d5a35f;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .navbar .brand-logo {
+    gap: 11px;
+  }
+
+
+  .navbar .brand-logo > span {
+    min-width: 39px;
+
+    font-size: 27px;
+
+    letter-spacing: -1.5px;
+  }
+
+
+  .navbar .brand-logo > span::after {
+    right: -6px;
+
+    height: 27px;
+  }
+
+
+  .navbar .brand-logo strong {
+    max-width: none;
+
+    overflow: visible;
+
+    text-overflow: initial;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+  }
+
+
+  .navbar .brand-logo small {
+    font-size: 4.5px;
+
+    letter-spacing: 3.7px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .navbar .brand-logo {
+    gap: 9px;
+  }
+
+
+  .navbar .brand-logo > span {
+    min-width: 34px;
+
+    font-size: 24px;
+  }
+
+
+  .navbar .brand-logo strong {
+    font-size: 9px;
+
+    letter-spacing: 0.8px;
+  }
+
+
+  .navbar .brand-logo small {
+    font-size: 4px;
+
+    letter-spacing: 3px;
+  }
+
+}

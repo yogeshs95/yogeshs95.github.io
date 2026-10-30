@@ -1,0 +1,786 @@
+/* =========================================================
+   STEP 13
+========================================================= */
+
+
+/* BRAND */
+
+.brand-logo strong {
+  white-space: nowrap;
+}
+
+
+.brand-logo small {
+  color: #d5a35f;
+}
+
+
+/* =========================================================
+   PRELOADER
+========================================================= */
+
+.site-preloader {
+  position: fixed;
+
+  z-index: 20000;
+
+  inset: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      #1a1009,
+      #080604 38%,
+      #030303 75%
+    );
+
+  opacity: 1;
+
+  visibility: visible;
+
+  transition:
+    opacity 0.45s ease,
+    visibility 0.45s ease;
+}
+
+
+.site-preloader.complete {
+  opacity: 0;
+
+  visibility: hidden;
+}
+
+
+.preloader-center {
+  width:
+    min(
+      440px,
+      calc(100vw - 50px)
+    );
+}
+
+
+.preloader-logo {
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: center;
+
+  gap: 15px;
+}
+
+
+.preloader-logo > span {
+  color: #d5a35f;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 72px;
+
+  line-height: 0.9;
+
+  animation:
+    preloaderLogoFloat
+    1.8s ease-in-out
+    infinite alternate;
+}
+
+
+.preloader-logo > small {
+  padding-bottom: 6px;
+
+  color: #e0d5c6;
+
+  font-size: 8px;
+
+  letter-spacing: 5px;
+}
+
+
+@keyframes preloaderLogoFloat {
+
+  from {
+    transform:
+      translateY(0);
+  }
+
+  to {
+    transform:
+      translateY(-6px);
+  }
+
+}
+
+
+.preloader-center > p {
+  margin:
+    22px 0 0;
+
+  color: #7d6a57;
+
+  font-size: 7px;
+
+  letter-spacing: 4px;
+
+  text-align: center;
+}
+
+
+.preloader-track {
+  position: relative;
+
+  width: 100%;
+
+  height: 1px;
+
+  margin-top: 45px;
+
+  overflow: hidden;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+}
+
+
+.preloader-track > span {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      #a66b32,
+      #f0ce97
+    );
+
+  transition:
+    width 0.12s linear;
+}
+
+
+.preloader-bottom {
+  margin-top: 15px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+
+.preloader-bottom small {
+  color: #5d574f;
+
+  font-size: 6px;
+
+  letter-spacing: 2px;
+}
+
+
+.preloader-bottom strong {
+  color: #cbaa7b;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 15px;
+
+  font-weight: normal;
+}
+
+
+/* =========================================================
+   ACTIVE NAV
+========================================================= */
+
+.navbar nav a.active {
+  color: #d5a35f;
+}
+
+
+.navbar nav a.active::after {
+  width: 100%;
+}
+
+
+/* =========================================================
+   HAMBURGER
+========================================================= */
+
+.menu-toggle {
+  position: relative;
+
+  z-index: 120;
+
+  width: 46px;
+
+  height: 46px;
+
+  padding: 0;
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+
+  border-radius: 50%;
+
+  background:
+    rgba(5, 5, 5, 0.55);
+
+  cursor: pointer;
+
+  backdrop-filter:
+    blur(10px);
+}
+
+
+.menu-toggle > span {
+  position: absolute;
+
+  width: 18px;
+
+  height: 1px;
+
+  background: #d9cdbc;
+
+  transition:
+    transform 0.35s ease,
+    opacity 0.25s ease,
+    top 0.35s ease;
+}
+
+
+.menu-toggle > span:nth-child(1) {
+  top: 17px;
+}
+
+
+.menu-toggle > span:nth-child(2) {
+  top: 22px;
+}
+
+
+.menu-toggle > span:nth-child(3) {
+  top: 27px;
+}
+
+
+.menu-toggle.open
+> span:nth-child(1) {
+  top: 22px;
+
+  transform:
+    rotate(45deg);
+}
+
+
+.menu-toggle.open
+> span:nth-child(2) {
+  opacity: 0;
+}
+
+
+.menu-toggle.open
+> span:nth-child(3) {
+  top: 22px;
+
+  transform:
+    rotate(-45deg);
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+.mobile-menu {
+  position: fixed;
+
+  z-index: 95;
+
+  inset: 0;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 75% 20%,
+      rgba(162, 97, 40, 0.16),
+      transparent 28%
+    ),
+    #050505;
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  pointer-events: none;
+
+  transform:
+    translateY(-16px);
+
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s ease,
+    transform 0.4s ease;
+}
+
+
+.mobile-menu.open {
+  opacity: 1;
+
+  visibility: visible;
+
+  pointer-events: auto;
+
+  transform:
+    translateY(0);
+}
+
+
+.mobile-menu-bg-word {
+  position: absolute;
+
+  right: -40px;
+  bottom: -25px;
+
+  color:
+    rgba(255, 255, 255, 0.018);
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 240px;
+
+  line-height: 1;
+}
+
+
+.mobile-menu-inner {
+  position: relative;
+
+  z-index: 2;
+
+  min-height: 100%;
+
+  padding:
+    125px 28px
+    35px;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+.mobile-menu-inner > p {
+  margin: 0;
+
+  color: #645d55;
+
+  font-size: 7px;
+
+  letter-spacing: 4px;
+}
+
+
+.mobile-menu nav {
+  margin-top: 35px;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+.mobile-menu nav a {
+  min-height: 73px;
+
+  display: grid;
+
+  grid-template-columns:
+    40px
+    minmax(0, 1fr)
+    30px;
+
+  align-items: center;
+
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+
+  color: #a49b90;
+
+  text-decoration: none;
+
+  transition:
+    color 0.3s,
+    padding-left 0.3s;
+}
+
+
+.mobile-menu nav a small {
+  color: #5f574f;
+
+  font-size: 7px;
+}
+
+
+.mobile-menu nav a span {
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 35px;
+
+  letter-spacing: -1px;
+}
+
+
+.mobile-menu nav a b {
+  color: #d5a35f;
+
+  font-size: 17px;
+
+  font-weight: normal;
+
+  opacity: 0;
+
+  transform:
+    translate(-8px, 8px);
+
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+}
+
+
+.mobile-menu nav a.active {
+  padding-left: 8px;
+
+  color: #e5cba6;
+}
+
+
+.mobile-menu nav a.active b {
+  opacity: 1;
+
+  transform:
+    translate(0, 0);
+}
+
+
+.mobile-menu-footer {
+  margin-top: auto;
+
+  padding-top: 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+}
+
+
+.mobile-menu-footer span {
+  color: #8a8075;
+
+  font-size: 7px;
+
+  letter-spacing: 2px;
+}
+
+
+.mobile-menu-footer small {
+  color: #d5a35f;
+
+  font-size: 6px;
+
+  letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   DD-MM-YYYY CALENDAR
+========================================================= */
+
+.custom-date-field {
+  position: relative;
+
+  width: 100%;
+}
+
+
+.custom-date-field
+> input[type="text"] {
+  width: 100%;
+
+  padding:
+    13px 46px
+    13px 0;
+
+  border: 0;
+
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+
+  border-radius: 0;
+
+  outline: 0;
+
+  background:
+    transparent;
+
+  color: #e5ded4;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.3s;
+}
+
+
+.custom-date-field
+> input[type="text"]:focus,
+.custom-date-field
+> input[type="text"]:hover {
+  border-color:
+    #d5a35f;
+}
+
+
+.custom-date-field
+> input[type="text"]::placeholder {
+  color: #48433e;
+}
+
+
+.calendar-button {
+  position: absolute;
+
+  top: 50%;
+  right: 0;
+
+  width: 40px;
+
+  height: 40px;
+
+  display: grid;
+
+  place-items: center;
+
+  border: 0;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  transform:
+    translateY(-50%);
+
+  transition:
+    transform 0.3s;
+}
+
+
+.calendar-button:hover {
+  transform:
+    translateY(-50%)
+    scale(1.12);
+}
+
+
+.hidden-date-picker {
+  position: absolute !important;
+
+  right: 5px !important;
+  bottom: 0 !important;
+
+  width: 2px !important;
+
+  height: 2px !important;
+
+  padding: 0 !important;
+
+  border: 0 !important;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline:
+    1px solid
+    #d5a35f;
+
+  outline-offset: 4px;
+}
+
+
+::selection {
+  color: #17110a;
+
+  background:
+    #d5a35f;
+}
+
+
+/* =========================================================
+   MOBILE BRAND
+========================================================= */
+
+@media
+(max-width: 800px) {
+
+  .menu-toggle {
+    display: flex;
+  }
+
+
+  .navbar {
+    z-index: 110;
+  }
+
+
+  .navbar nav {
+    display: none;
+  }
+
+
+  .logo {
+    position: relative;
+
+    z-index: 120;
+  }
+
+
+  .brand-logo > span {
+    font-size: 27px;
+  }
+
+
+  .brand-logo strong {
+    font-size: 7px;
+
+    letter-spacing: 2px;
+  }
+
+
+  .brand-logo small {
+    font-size: 5px;
+
+    letter-spacing: 2px;
+  }
+
+
+  .preloader-logo > span {
+    font-size: 58px;
+  }
+
+
+  .preloader-logo > small {
+    font-size: 7px;
+
+    letter-spacing: 3px;
+  }
+
+
+  .preloader-center > p {
+    letter-spacing: 2.5px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media
+(max-width: 390px) {
+
+  .brand-logo strong {
+    font-size: 6px;
+
+    letter-spacing: 1.4px;
+  }
+
+
+  .brand-logo small {
+    font-size: 5px;
+  }
+
+
+  .brand-logo {
+    gap: 8px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media
+(prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+
+  *,
+  *::before,
+  *::after {
+    animation-duration:
+      0.01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+
+    transition-duration:
+      0.01ms !important;
+  }
+
+}

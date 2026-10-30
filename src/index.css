@@ -1,0 +1,58 @@
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  min-height: 100vh;
+
+  background: #050505;
+}
+
+
+/* =========================================================
+   PREVENT SIDE / HORIZONTAL OVERFLOW
+========================================================= */
+
+html,
+body {
+  max-width: 100%;
+
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   HIDE VERTICAL SCROLLBAR
+   SCROLLING STILL WORKS
+========================================================= */
+
+html {
+  scrollbar-width: none;
+}
+
+
+body {
+  -ms-overflow-style: none;
+}
+
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+
+  display: none;
+}
+
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+#root {
+  width: 100%;
+
+  overflow-x: hidden;
+}

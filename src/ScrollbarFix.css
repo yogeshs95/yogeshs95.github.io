@@ -1,0 +1,83 @@
+/* =========================================================
+   SCROLLBAR FIX
+========================================================= */
+
+
+/* Main page scroll चालू राहील */
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+
+  margin: 0;
+
+  overflow-x: hidden;
+}
+
+
+/* Chrome / Brave / Edge */
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+
+html,
+body {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+
+/* Nested scrollbar detected by scrollbarGuard.js */
+
+[data-nested-scroll-fixed="true"] {
+  overflow-y: visible !important;
+
+  scrollbar-width: none !important;
+
+  -ms-overflow-style: none !important;
+}
+
+
+[data-nested-scroll-fixed="true"]::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+
+  display: none !important;
+}
+
+
+/* Horizontal overflow protection */
+
+#root,
+.website {
+  width: 100%;
+  max-width: 100%;
+
+  overflow-x: hidden;
+}
+
+
+.hero,
+.about-section,
+.portfolio-section,
+.services-section,
+.testimonials-section,
+.contact-section,
+.footer {
+  max-width: 100%;
+
+  overflow-x: hidden;
+}
+
+
+img,
+canvas,
+video,
+svg {
+  max-width: 100%;
+}
