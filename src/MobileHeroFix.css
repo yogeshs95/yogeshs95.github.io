@@ -1,0 +1,274 @@
+/* =========================================================
+   MOBILE HERO / THREE.JS FIX
+   Camera Center + Touchable Photos
+========================================================= */
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+
+  /* -------------------------------------------------------
+     HERO
+  ------------------------------------------------------- */
+
+  .hero {
+    position: relative;
+
+    width: 100%;
+
+    min-height: 100svh;
+
+    overflow: hidden;
+  }
+
+
+  /* -------------------------------------------------------
+     THREE.JS AREA
+     IMPORTANT:
+     Old translateX(12%-16%) removed.
+  ------------------------------------------------------- */
+
+  .three-area {
+    position: absolute !important;
+
+    z-index: 3;
+
+    top: 7% !important;
+
+    left: 50% !important;
+
+    width: 110% !important;
+
+    height: 56% !important;
+
+    transform:
+      translateX(-50%)
+      scale(0.8) !important;
+
+    transform-origin:
+      center center !important;
+
+    opacity: 1;
+
+    overflow: visible !important;
+
+    pointer-events: auto !important;
+  }
+
+
+  /* -------------------------------------------------------
+     CANVAS MUST RECEIVE TOUCH
+  ------------------------------------------------------- */
+
+  .three-area canvas {
+    position: relative;
+
+    z-index: 3;
+
+    width: 100% !important;
+
+    height: 100% !important;
+
+    display: block;
+
+    pointer-events: auto !important;
+
+    /*
+      Tap on photo works.
+      Vertical page scroll also remains natural.
+    */
+    touch-action: pan-y;
+
+    filter:
+      saturate(0.95)
+      brightness(1);
+  }
+
+
+  /* -------------------------------------------------------
+     DARK OVERLAY SHOULD NEVER BLOCK CANVAS TOUCH
+  ------------------------------------------------------- */
+
+  .dark-overlay {
+    z-index: 4;
+
+    pointer-events: none !important;
+
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(5, 5, 5, 0.02) 0%,
+        rgba(5, 5, 5, 0.08) 35%,
+        rgba(5, 5, 5, 0.72) 62%,
+        rgba(5, 5, 5, 0.96) 78%,
+        #050505 100%
+      );
+  }
+
+
+  /* -------------------------------------------------------
+     HERO TEXT
+     Transparent container must NOT block Three.js touches.
+  ------------------------------------------------------- */
+
+  .hero-content {
+    z-index: 5;
+
+    pointer-events: none !important;
+  }
+
+
+  /*
+    Buttons मात्र clickable ठेवायचे.
+  */
+
+  .hero-content .buttons {
+    pointer-events: auto !important;
+  }
+
+
+  .hero-content .buttons button {
+    pointer-events: auto !important;
+
+    touch-action: manipulation;
+  }
+
+
+  /* -------------------------------------------------------
+     TEXT DOES NOT NEED TOUCH EVENTS
+  ------------------------------------------------------- */
+
+  .hero-content .top-text,
+  .hero-content h1,
+  .hero-content .categories,
+  .hero-content .description {
+    pointer-events: none !important;
+  }
+
+
+  /* -------------------------------------------------------
+     THREE.JS PHOTO INTERACTION
+  ------------------------------------------------------- */
+
+  .three-area,
+  .three-area canvas {
+    -webkit-tap-highlight-color:
+      transparent;
+  }
+
+}
+
+
+/* =========================================================
+   600PX MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .three-area {
+    top: 8% !important;
+
+    left: 50% !important;
+
+    width: 116% !important;
+
+    height: 53% !important;
+
+    transform:
+      translateX(-50%)
+      scale(0.74) !important;
+  }
+
+}
+
+
+/* =========================================================
+   420PX MOBILE
+   Your screenshot is roughly this category.
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .three-area {
+    top: 9% !important;
+
+    left: 50% !important;
+
+    width: 120% !important;
+
+    height: 50% !important;
+
+    transform:
+      translateX(-50%)
+      scale(0.7) !important;
+  }
+
+
+  /*
+    Text begins slightly lower so camera
+    gets its own visual space.
+  */
+
+  .hero-content {
+    padding-top: 44vh !important;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONE
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .three-area {
+    top: 10% !important;
+
+    width: 124% !important;
+
+    height: 48% !important;
+
+    transform:
+      translateX(-50%)
+      scale(0.66) !important;
+  }
+
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+  .three-area {
+    pointer-events: auto !important;
+  }
+
+
+  .three-area canvas {
+    pointer-events: auto !important;
+  }
+
+
+  .dark-overlay {
+    pointer-events: none !important;
+  }
+
+
+  .hero-content {
+    pointer-events: none !important;
+  }
+
+
+  .hero-content button,
+  .hero-content .buttons {
+    pointer-events: auto !important;
+  }
+
+}
