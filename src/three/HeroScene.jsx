@@ -26,7 +26,6 @@ function Twinkle({
 }) {
   const ref = useRef();
 
-
   useFrame((state) => {
     if (!ref.current) return;
 
@@ -44,7 +43,6 @@ function Twinkle({
     ref.current.rotation.z =
       time * 0.12;
   });
-
 
   return (
     <group
@@ -80,7 +78,7 @@ function Twinkle({
 
 
 /* =========================================================
-   CAMERA GLITTER
+   GLITTER
 ========================================================= */
 
 function CameraGlitter({
@@ -120,8 +118,7 @@ function CameraGlitter({
         2;
 
       data[i * 3] =
-        Math.cos(angle) *
-        radius;
+        Math.cos(angle) * radius;
 
       data[i * 3 + 1] =
         (Math.random() - 0.5) *
@@ -148,22 +145,28 @@ function CameraGlitter({
     const baseX =
       isMobile ? 0 : 0.35;
 
+
     groupRef.current.position.x =
       THREE.MathUtils.lerp(
         groupRef.current.position.x,
         baseX +
           progress *
-            (isMobile ? 0.2 : 0.7),
+            (isMobile
+              ? 0.2
+              : 0.7),
         0.035
       );
+
 
     groupRef.current.position.y =
       Math.sin(time * 0.35) *
         0.025 -
       progress * 0.1;
 
+
     groupRef.current.position.z =
       -progress * 0.8;
+
 
     if (pointsRef.current) {
       pointsRef.current.material.opacity =
@@ -210,41 +213,25 @@ function CameraGlitter({
 
 
       <Twinkle
-        position={[
-          -1.7,
-          1.1,
-          0.3,
-        ]}
+        position={[-1.7, 1.1, 0.3]}
         scale={0.065}
         speed={1.8}
       />
 
       <Twinkle
-        position={[
-          1.65,
-          1,
-          0.2,
-        ]}
+        position={[1.65, 1, 0.2]}
         scale={0.05}
         speed={2.2}
       />
 
       <Twinkle
-        position={[
-          -1.5,
-          -1,
-          0.25,
-        ]}
+        position={[-1.5, -1, 0.25]}
         scale={0.045}
         speed={1.5}
       />
 
       <Twinkle
-        position={[
-          1.7,
-          -0.9,
-          -0.1,
-        ]}
+        position={[1.7, -0.9, -0.1]}
         scale={0.055}
         speed={2.5}
       />
@@ -254,7 +241,7 @@ function CameraGlitter({
 
 
 /* =========================================================
-   MODERN CAMERA
+   CAMERA
 ========================================================= */
 
 function Camera3D({
@@ -289,10 +276,12 @@ function Camera3D({
       }
     );
 
+
     const animation =
       gsap.timeline({
         delay: 0.3,
       });
+
 
     animation.to(
       introRef.current.position,
@@ -303,6 +292,7 @@ function Camera3D({
         ease: "power3.out",
       }
     );
+
 
     animation.to(
       introRef.current.scale,
@@ -315,6 +305,7 @@ function Camera3D({
       },
       "<"
     );
+
 
     return () =>
       animation.kill();
@@ -333,15 +324,12 @@ function Camera3D({
 
     const rotationY =
       state.pointer.x *
-        (isMobile
-          ? 0.045
-          : 0.09);
+      (isMobile ? 0.04 : 0.09);
+
 
     const rotationX =
       -state.pointer.y *
-      (isMobile
-        ? 0.015
-        : 0.035);
+      (isMobile ? 0.015 : 0.035);
 
 
     cameraRef.current.rotation.y =
@@ -351,6 +339,7 @@ function Camera3D({
         0.035
       );
 
+
     cameraRef.current.rotation.x =
       THREE.MathUtils.lerp(
         cameraRef.current.rotation.x,
@@ -358,15 +347,12 @@ function Camera3D({
         0.035
       );
 
+
     cameraRef.current.rotation.z =
       Math.sin(
         time * 0.4
       ) * 0.003;
 
-
-    /*
-      MOBILE EXACT CENTER
-    */
 
     const baseX =
       isMobile ? 0 : 0.3;
@@ -395,11 +381,8 @@ function Camera3D({
 
 
     const targetScale =
-      (isMobile
-        ? 0.86
-        : 1) *
-      (1 -
-        progress * 0.12);
+      (isMobile ? 0.86 : 1) *
+      (1 - progress * 0.12);
 
 
     const smoothScale =
@@ -420,14 +403,8 @@ function Camera3D({
     <group ref={introRef}>
       <group
         ref={cameraRef}
-        position={[
-          0,
-          0,
-          0,
-        ]}
+        position={[0, 0, 0]}
       >
-
-        {/* BODY */}
 
         <mesh>
           <boxGeometry
@@ -445,8 +422,6 @@ function Camera3D({
           />
         </mesh>
 
-
-        {/* FRONT PLATE */}
 
         <mesh
           position={[
@@ -471,8 +446,6 @@ function Camera3D({
         </mesh>
 
 
-        {/* GRIP */}
-
         <mesh
           position={[
             -1.12,
@@ -495,8 +468,6 @@ function Camera3D({
           />
         </mesh>
 
-
-        {/* TOP PLATE */}
 
         <mesh
           position={[
@@ -521,8 +492,6 @@ function Camera3D({
         </mesh>
 
 
-        {/* VIEWFINDER */}
-
         <mesh
           position={[
             0.22,
@@ -546,8 +515,6 @@ function Camera3D({
         </mesh>
 
 
-        {/* HOT SHOE */}
-
         <mesh
           position={[
             0.23,
@@ -570,8 +537,6 @@ function Camera3D({
           />
         </mesh>
 
-
-        {/* MODE DIAL */}
 
         <mesh
           position={[
@@ -597,8 +562,6 @@ function Camera3D({
         </mesh>
 
 
-        {/* SHUTTER */}
-
         <mesh
           position={[
             -0.85,
@@ -622,8 +585,6 @@ function Camera3D({
           />
         </mesh>
 
-
-        {/* LENS MOUNT */}
 
         <mesh
           position={[
@@ -654,8 +615,6 @@ function Camera3D({
         </mesh>
 
 
-        {/* LENS BARREL */}
-
         <mesh
           position={[
             0.25,
@@ -684,8 +643,6 @@ function Camera3D({
           />
         </mesh>
 
-
-        {/* FOCUS RING */}
 
         <mesh
           position={[
@@ -716,8 +673,6 @@ function Camera3D({
         </mesh>
 
 
-        {/* SECOND LENS BARREL */}
-
         <mesh
           position={[
             0.25,
@@ -746,8 +701,6 @@ function Camera3D({
           />
         </mesh>
 
-
-        {/* FRONT RING */}
 
         <mesh
           position={[
@@ -778,8 +731,6 @@ function Camera3D({
         </mesh>
 
 
-        {/* GLASS */}
-
         <mesh
           position={[
             0.25,
@@ -802,8 +753,6 @@ function Camera3D({
           />
         </mesh>
 
-
-        {/* INNER GLASS */}
 
         <mesh
           position={[
@@ -855,11 +804,7 @@ function PhotoFrame({
   speed = 1,
   introDelay = 1,
 
-  disperse = [
-    0,
-    0,
-    0,
-  ],
+  disperse = [0, 0, 0],
 
   scrollProgressRef,
 
@@ -873,6 +818,16 @@ function PhotoFrame({
 
   const photoMaterialRef =
     useRef();
+
+  /*
+    Mobile tap tracking.
+  */
+  const tapRef = useRef({
+    x: 0,
+    y: 0,
+    time: 0,
+    active: false,
+  });
 
 
   const {
@@ -898,11 +853,21 @@ function PhotoFrame({
 
 
   /*
-    IMPORTANT FIX
-
-    Current Canvas viewport च्या
-    बाहेर photo जाऊ शकणार नाही.
+    Bigger invisible touch target
+    on actual phone.
   */
+
+  const hitWidth =
+    isMobile
+      ? 2.25
+      : 1.55;
+
+
+  const hitHeight =
+    isMobile
+      ? 2.6
+      : 2;
+
 
   const safetyMargin =
     isMobile
@@ -939,6 +904,7 @@ function PhotoFrame({
       }
     );
 
+
     const animation =
       gsap.to(
         introRef.current.scale,
@@ -951,6 +917,7 @@ function PhotoFrame({
           ease: "back.out(1.2)",
         }
       );
+
 
     return () =>
       animation.kill();
@@ -971,20 +938,12 @@ function PhotoFrame({
         : 0.35;
 
 
-    /*
-      Requested position
-    */
-
     const requestedX =
       basePosition[0] +
       disperse[0] *
         progress *
         scrollStrength;
 
-
-    /*
-      Clamp = screen बाहेर जाऊ देणार नाही.
-    */
 
     const targetX =
       THREE.MathUtils.clamp(
@@ -1006,7 +965,7 @@ function PhotoFrame({
     const targetZ =
       basePosition[2] +
       (isHovered
-        ? 0.5
+        ? 0.45
         : 0);
 
 
@@ -1037,20 +996,16 @@ function PhotoFrame({
     const targetScale =
       baseScale *
       (isHovered
-        ? 1.1
+        ? 1.08
         : 1);
 
 
-    const smoothScale =
+    frameRef.current.scale.setScalar(
       THREE.MathUtils.lerp(
         frameRef.current.scale.x,
         targetScale,
         0.07
-      );
-
-
-    frameRef.current.scale.setScalar(
-      smoothScale
+      )
     );
 
 
@@ -1069,6 +1024,126 @@ function PhotoFrame({
   });
 
 
+  const handlePointerDown =
+    (event) => {
+
+      event.stopPropagation();
+
+
+      tapRef.current = {
+        x:
+          event.clientX ??
+          0,
+
+        y:
+          event.clientY ??
+          0,
+
+        time:
+          performance.now(),
+
+        active:
+          true,
+      };
+
+
+      try {
+        event.target
+          ?.setPointerCapture?.(
+            event.pointerId
+          );
+      } catch {
+        // Some mobile browsers
+        // do not expose pointer capture.
+      }
+
+    };
+
+
+  const handlePointerUp =
+    (event) => {
+
+      event.stopPropagation();
+
+
+      if (
+        !tapRef.current.active
+      ) {
+        return;
+      }
+
+
+      const endX =
+        event.clientX ??
+        tapRef.current.x;
+
+
+      const endY =
+        event.clientY ??
+        tapRef.current.y;
+
+
+      const deltaX =
+        Math.abs(
+          endX -
+          tapRef.current.x
+        );
+
+
+      const deltaY =
+        Math.abs(
+          endY -
+          tapRef.current.y
+        );
+
+
+      const elapsed =
+        performance.now() -
+        tapRef.current.time;
+
+
+      /*
+        Real tap:
+        finger फार move झालेला नाही
+        आणि hold खूप मोठा नाही.
+      */
+
+      const isTap =
+        deltaX < 18 &&
+        deltaY < 18 &&
+        elapsed < 700;
+
+
+      tapRef.current.active =
+        false;
+
+
+      try {
+        event.target
+          ?.releasePointerCapture?.(
+            event.pointerId
+          );
+      } catch {
+        // ignore
+      }
+
+
+      if (isTap) {
+        onSelect(index);
+      }
+
+    };
+
+
+  const handlePointerCancel =
+    () => {
+
+      tapRef.current.active =
+        false;
+
+    };
+
+
   return (
     <group ref={introRef}>
 
@@ -1079,7 +1154,7 @@ function PhotoFrame({
         scale={baseScale}
       >
 
-        {/* GOLD FRAME */}
+        {/* FRAME */}
 
         <mesh>
           <boxGeometry
@@ -1098,7 +1173,7 @@ function PhotoFrame({
         </mesh>
 
 
-        {/* DARK INNER */}
+        {/* INNER */}
 
         <mesh
           position={[
@@ -1148,14 +1223,18 @@ function PhotoFrame({
         </mesh>
 
 
-        {/* TOUCH AREA */}
+        {/* =================================================
+            LARGE MOBILE TOUCH AREA
+        ================================================= */}
 
         <mesh
           position={[
             0,
             0,
-            0.11,
+            0.25,
           ]}
+
+          renderOrder={999}
 
           onPointerOver={(
             event
@@ -1173,47 +1252,48 @@ function PhotoFrame({
             setHoveredId(null);
           }}
 
-          onPointerDown={(
-            event
-          ) => {
-            event.stopPropagation();
+          onPointerDown={
+            handlePointerDown
+          }
 
-            onSelect(index);
-          }}
+          onPointerUp={
+            handlePointerUp
+          }
 
-          onClick={(
-            event
-          ) => {
-            event.stopPropagation();
-
-            onSelect(index);
-          }}
+          onPointerCancel={
+            handlePointerCancel
+          }
         >
+
           <planeGeometry
             args={[
-              1.55,
-              2,
+              hitWidth,
+              hitHeight,
             ]}
           />
+
 
           <meshBasicMaterial
             transparent
             opacity={0}
             depthWrite={false}
+            depthTest={false}
             side={
               THREE.DoubleSide
             }
           />
+
         </mesh>
 
       </group>
+
     </group>
   );
 }
 
 
 /* =========================================================
-   HERO SCENE
+   HERO
 ========================================================= */
 
 function HeroScene({
@@ -1266,8 +1346,6 @@ function HeroScene({
   return (
     <>
 
-      {/* LIGHTING */}
-
       <ambientLight
         intensity={1.15}
         color="#fff8ef"
@@ -1318,8 +1396,6 @@ function HeroScene({
       />
 
 
-      {/* GLITTER */}
-
       <CameraGlitter
         scrollProgressRef={
           scrollProgressRef
@@ -1327,16 +1403,12 @@ function HeroScene({
       />
 
 
-      {/* CAMERA */}
-
       <Camera3D
         scrollProgressRef={
           scrollProgressRef
         }
       />
 
-
-      {/* LEFT WEDDING */}
 
       <PhotoFrame
         id="wedding"
@@ -1393,8 +1465,6 @@ function HeroScene({
       />
 
 
-      {/* RIGHT PORTRAIT */}
-
       <PhotoFrame
         id="portrait"
         index={1}
@@ -1449,8 +1519,6 @@ function HeroScene({
         }
       />
 
-
-      {/* RIGHT BOTTOM EVENT */}
 
       <PhotoFrame
         id="event"
