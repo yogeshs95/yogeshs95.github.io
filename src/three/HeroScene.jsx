@@ -1,6 +1,7 @@
 import {
   useFrame,
   useLoader,
+  useThree,
 } from "@react-three/fiber";
 
 import {
@@ -15,195 +16,171 @@ import gsap from "gsap";
 
 
 /* =========================================================
-   CAMERA GLITTER PARTICLES
+   TWINKLE
+========================================================= */
+
+function Twinkle({
+  position,
+  scale = 0.06,
+  speed = 2,
+}) {
+  const ref = useRef();
+
+
+  useFrame((state) => {
+    if (!ref.current) return;
+
+    const time =
+      state.clock.elapsedTime * speed;
+
+    const pulse =
+      0.45 +
+      ((Math.sin(time) + 1) / 2) * 0.55;
+
+    ref.current.scale.setScalar(
+      scale * pulse
+    );
+
+    ref.current.rotation.z =
+      time * 0.12;
+  });
+
+
+  return (
+    <group
+      ref={ref}
+      position={position}
+    >
+      <mesh>
+        <planeGeometry args={[1, 0.1]} />
+
+        <meshBasicMaterial
+          color="#f0d3a1"
+          transparent
+          opacity={0.7}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+
+      <mesh>
+        <planeGeometry args={[0.1, 1]} />
+
+        <meshBasicMaterial
+          color="#fff4df"
+          transparent
+          opacity={0.6}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+    </group>
+  );
+}
+
+
+/* =========================================================
+   CAMERA GLITTER
 ========================================================= */
 
 function CameraGlitter({
   scrollProgressRef,
 }) {
+  const groupRef = useRef();
+  const pointsRef = useRef();
 
-  const groupRef =
-    useRef();
+  const { size } = useThree();
 
-  const pointsRef =
-    useRef();
-
+  const isMobile =
+    size.width <= 800;
 
   const particleCount =
-    85;
+    isMobile ? 45 : 80;
 
 
-  const positions =
-    useMemo(() => {
+  const positions = useMemo(() => {
+    const data =
+      new Float32Array(
+        particleCount * 3
+      );
 
-      const data =
-        new Float32Array(
-          particleCount * 3
-        );
+    for (
+      let i = 0;
+      i < particleCount;
+      i++
+    ) {
+      const angle =
+        Math.random() *
+        Math.PI *
+        2;
 
+      const radius =
+        1.4 +
+        Math.random() *
+        2;
 
-      for (
-        let i = 0;
-        i < particleCount;
-        i++
-      ) {
+      data[i * 3] =
+        Math.cos(angle) *
+        radius;
 
-        const angle =
-          Math.random() *
-          Math.PI *
-          2;
+      data[i * 3 + 1] =
+        (Math.random() - 0.5) *
+        3.6;
 
-
-        const radius =
-          1.8 +
-          Math.random() *
-          2.3;
-
-
-        const x =
-          Math.cos(angle) *
-          radius;
-
-
-        const y =
-          (
-            Math.random() -
-            0.5
-          ) *
-          4.2;
-
-
-        const z =
-          (
-            Math.random() -
-            0.5
-          ) *
-          2.6;
-
-
-        data[
-          i * 3
-        ] =
-          x;
-
-
-        data[
-          i * 3 + 1
-        ] =
-          y;
-
-
-        data[
-          i * 3 + 2
-        ] =
-          z;
-
-      }
-
-
-      return data;
-
-    }, []);
-
-
-  useFrame(
-    (state) => {
-
-      if (
-        !groupRef.current
-      ) {
-        return;
-      }
-
-
-      const time =
-        state.clock.elapsedTime;
-
-
-      const progress =
-        scrollProgressRef?.current ||
-        0;
-
-
-      groupRef.current.rotation.z =
-        Math.sin(
-          time * 0.18
-        ) *
-        0.025;
-
-
-      groupRef.current.rotation.y =
-        THREE.MathUtils.lerp(
-          groupRef.current.rotation.y,
-          state.pointer.x *
-            0.035,
-          0.025
-        );
-
-
-      groupRef.current.rotation.x =
-        THREE.MathUtils.lerp(
-          groupRef.current.rotation.x,
-          -state.pointer.y *
-            0.018,
-          0.025
-        );
-
-
-      groupRef.current.position.x =
-        0.4 +
-        progress *
-          1.45;
-
-
-      groupRef.current.position.y =
-        Math.sin(
-          time * 0.35
-        ) *
-        0.03 -
-        progress *
-          0.15;
-
-
-      groupRef.current.position.z =
-        -progress *
-        1.35;
-
-
-      if (
-        pointsRef.current
-      ) {
-
-        pointsRef.current.material.opacity =
-          0.48 +
-          Math.sin(
-            time * 1.8
-          ) *
-          0.08;
-
-      }
-
+      data[i * 3 + 2] =
+        (Math.random() - 0.5) *
+        2.2;
     }
-  );
+
+    return data;
+  }, [particleCount]);
+
+
+  useFrame((state) => {
+    if (!groupRef.current) return;
+
+    const time =
+      state.clock.elapsedTime;
+
+    const progress =
+      scrollProgressRef?.current || 0;
+
+    const baseX =
+      isMobile ? 0 : 0.35;
+
+    groupRef.current.position.x =
+      THREE.MathUtils.lerp(
+        groupRef.current.position.x,
+        baseX +
+          progress *
+            (isMobile ? 0.2 : 0.7),
+        0.035
+      );
+
+    groupRef.current.position.y =
+      Math.sin(time * 0.35) *
+        0.025 -
+      progress * 0.1;
+
+    groupRef.current.position.z =
+      -progress * 0.8;
+
+    if (pointsRef.current) {
+      pointsRef.current.material.opacity =
+        0.4 +
+        Math.sin(time * 1.7) *
+          0.06;
+    }
+  });
 
 
   return (
-
     <group
       ref={groupRef}
-      position={[
-        0.4,
-        0,
-        0,
-      ]}
+      position={[0, 0, 0]}
     >
-
-      <points
-        ref={pointsRef}
-      >
-
+      <points ref={pointsRef}>
         <bufferGeometry>
-
           <bufferAttribute
             attach="attributes-position"
             array={positions}
@@ -212,230 +189,96 @@ function CameraGlitter({
             }
             itemSize={3}
           />
-
         </bufferGeometry>
 
-
         <pointsMaterial
-          color="#e7c38d"
-          size={0.035}
-          sizeAttenuation
+          color="#dfbc82"
+          size={
+            isMobile
+              ? 0.028
+              : 0.034
+          }
           transparent
-          opacity={0.5}
+          opacity={0.45}
+          sizeAttenuation
           depthWrite={false}
           blending={
             THREE.AdditiveBlending
           }
         />
-
       </points>
 
 
-      {/* -----------------------------------------------
-          A FEW LARGER TWINKLES
-      ----------------------------------------------- */}
-
       <Twinkle
         position={[
-          -2.05,
-          1.3,
-          0.5,
+          -1.7,
+          1.1,
+          0.3,
         ]}
-        scale={0.085}
+        scale={0.065}
         speed={1.8}
       />
 
-
       <Twinkle
         position={[
-          2,
-          1.05,
+          1.65,
+          1,
           0.2,
         ]}
-        scale={0.065}
+        scale={0.05}
         speed={2.2}
       />
 
-
       <Twinkle
         position={[
-          -1.8,
-          -1.25,
-          0.4,
-        ]}
-        scale={0.055}
-        speed={1.55}
-      />
-
-
-      <Twinkle
-        position={[
-          2.35,
-          -0.9,
-          -0.25,
-        ]}
-        scale={0.075}
-        speed={2.6}
-      />
-
-
-      <Twinkle
-        position={[
-          1.55,
-          1.75,
-          -0.4,
+          -1.5,
+          -1,
+          0.25,
         ]}
         scale={0.045}
-        speed={2}
+        speed={1.5}
       />
 
+      <Twinkle
+        position={[
+          1.7,
+          -0.9,
+          -0.1,
+        ]}
+        scale={0.055}
+        speed={2.5}
+      />
     </group>
-
   );
-
 }
 
 
 /* =========================================================
-   SINGLE TWINKLE
-========================================================= */
-
-function Twinkle({
-  position,
-  scale,
-  speed,
-}) {
-
-  const ref =
-    useRef();
-
-
-  useFrame(
-    (state) => {
-
-      if (
-        !ref.current
-      ) {
-        return;
-      }
-
-
-      const time =
-        state.clock.elapsedTime *
-        speed;
-
-
-      const pulse =
-        0.35 +
-        (
-          Math.sin(time) + 1
-        ) *
-        0.325;
-
-
-      ref.current.scale.setScalar(
-        scale *
-        pulse
-      );
-
-
-      ref.current.rotation.z =
-        time *
-        0.18;
-
-    }
-  );
-
-
-  return (
-
-    <group
-      ref={ref}
-      position={position}
-    >
-
-      <mesh>
-
-        <planeGeometry
-          args={[
-            1,
-            0.11,
-          ]}
-        />
-
-        <meshBasicMaterial
-          color="#f4d9aa"
-          transparent
-          opacity={0.75}
-          depthWrite={false}
-          blending={
-            THREE.AdditiveBlending
-          }
-        />
-
-      </mesh>
-
-
-      <mesh>
-
-        <planeGeometry
-          args={[
-            0.11,
-            1,
-          ]}
-        />
-
-        <meshBasicMaterial
-          color="#fff2d8"
-          transparent
-          opacity={0.65}
-          depthWrite={false}
-          blending={
-            THREE.AdditiveBlending
-          }
-        />
-
-      </mesh>
-
-    </group>
-
-  );
-
-}
-
-
-/* =========================================================
-   MODERN REALISTIC CAMERA
+   MODERN CAMERA
 ========================================================= */
 
 function Camera3D({
   scrollProgressRef,
 }) {
+  const introRef = useRef();
+  const cameraRef = useRef();
 
-  const introRef =
-    useRef();
+  const { size } = useThree();
 
-  const cameraRef =
-    useRef();
+  const isMobile =
+    size.width <= 800;
 
 
   useEffect(() => {
-
-    if (
-      !introRef.current
-    ) {
-      return;
-    }
-
+    if (!introRef.current) return;
 
     gsap.set(
       introRef.current.position,
       {
-        z: -2.2,
+        z: -2,
         y: -0.15,
       }
     );
-
 
     gsap.set(
       introRef.current.scale,
@@ -446,23 +289,20 @@ function Camera3D({
       }
     );
 
-
     const animation =
       gsap.timeline({
-        delay: 0.35,
+        delay: 0.3,
       });
-
 
     animation.to(
       introRef.current.position,
       {
         z: 0,
         y: 0,
-        duration: 1.5,
+        duration: 1.4,
         ease: "power3.out",
       }
     );
-
 
     animation.to(
       introRef.current.scale,
@@ -470,166 +310,126 @@ function Camera3D({
         x: 1,
         y: 1,
         z: 1,
-        duration: 1.5,
+        duration: 1.4,
         ease: "power3.out",
       },
       "<"
     );
 
-
-    return () => {
-
+    return () =>
       animation.kill();
-
-    };
-
   }, []);
 
 
-  useFrame(
-    (state) => {
+  useFrame((state) => {
+    if (!cameraRef.current) return;
 
-      if (
-        !cameraRef.current
-      ) {
-        return;
-      }
+    const time =
+      state.clock.elapsedTime;
 
-
-      const time =
-        state.clock.elapsedTime;
+    const progress =
+      scrollProgressRef?.current || 0;
 
 
-      const progress =
-        scrollProgressRef?.current ||
-        0;
+    const rotationY =
+      state.pointer.x *
+        (isMobile
+          ? 0.045
+          : 0.09);
+
+    const rotationX =
+      -state.pointer.y *
+      (isMobile
+        ? 0.015
+        : 0.035);
 
 
-      const targetRotationY =
-        state.pointer.x *
-          0.11 +
-        progress *
-          0.18;
-
-
-      const targetRotationX =
-        -state.pointer.y *
-          0.045 -
-        progress *
-          0.035;
-
-
-      cameraRef.current.rotation.y =
-        THREE.MathUtils.lerp(
-          cameraRef.current.rotation.y,
-          targetRotationY,
-          0.035
-        );
-
-
-      cameraRef.current.rotation.x =
-        THREE.MathUtils.lerp(
-          cameraRef.current.rotation.x,
-          targetRotationX,
-          0.035
-        );
-
-
-      cameraRef.current.rotation.z =
-        THREE.MathUtils.lerp(
-          cameraRef.current.rotation.z,
-          Math.sin(
-            time * 0.45
-          ) * 0.004,
-          0.03
-        );
-
-
-      const targetX =
-        0.4 +
-        progress *
-          1.5;
-
-
-      const targetY =
-        Math.sin(
-          time * 0.7
-        ) *
-          0.025 -
-        progress *
-          0.18;
-
-
-      const targetZ =
-        -progress *
-        1.45;
-
-
-      cameraRef.current.position.x =
-        THREE.MathUtils.lerp(
-          cameraRef.current.position.x,
-          targetX,
-          0.04
-        );
-
-
-      cameraRef.current.position.y =
-        THREE.MathUtils.lerp(
-          cameraRef.current.position.y,
-          targetY,
-          0.04
-        );
-
-
-      cameraRef.current.position.z =
-        THREE.MathUtils.lerp(
-          cameraRef.current.position.z,
-          targetZ,
-          0.04
-        );
-
-
-      const targetScale =
-        1 -
-        progress *
-          0.17;
-
-
-      const smoothScale =
-        THREE.MathUtils.lerp(
-          cameraRef.current.scale.x,
-          targetScale,
-          0.04
-        );
-
-
-      cameraRef.current.scale.setScalar(
-        smoothScale
+    cameraRef.current.rotation.y =
+      THREE.MathUtils.lerp(
+        cameraRef.current.rotation.y,
+        rotationY,
+        0.035
       );
 
-    }
-  );
+    cameraRef.current.rotation.x =
+      THREE.MathUtils.lerp(
+        cameraRef.current.rotation.x,
+        rotationX,
+        0.035
+      );
+
+    cameraRef.current.rotation.z =
+      Math.sin(
+        time * 0.4
+      ) * 0.003;
+
+
+    /*
+      MOBILE EXACT CENTER
+    */
+
+    const baseX =
+      isMobile ? 0 : 0.3;
+
+
+    cameraRef.current.position.x =
+      THREE.MathUtils.lerp(
+        cameraRef.current.position.x,
+        baseX +
+          progress *
+            (isMobile
+              ? 0.15
+              : 0.65),
+        0.04
+      );
+
+
+    cameraRef.current.position.y =
+      Math.sin(
+        time * 0.7
+      ) * 0.02;
+
+
+    cameraRef.current.position.z =
+      -progress * 0.9;
+
+
+    const targetScale =
+      (isMobile
+        ? 0.86
+        : 1) *
+      (1 -
+        progress * 0.12);
+
+
+    const smoothScale =
+      THREE.MathUtils.lerp(
+        cameraRef.current.scale.x,
+        targetScale,
+        0.04
+      );
+
+
+    cameraRef.current.scale.setScalar(
+      smoothScale
+    );
+  });
 
 
   return (
-
-    <group
-      ref={introRef}
-    >
-
+    <group ref={introRef}>
       <group
         ref={cameraRef}
         position={[
-          0.4,
+          0,
           0,
           0,
         ]}
       >
 
-        {/* MAIN BODY */}
+        {/* BODY */}
 
         <mesh>
-
           <boxGeometry
             args={[
               2.45,
@@ -643,7 +443,6 @@ function Camera3D({
             metalness={0.42}
             roughness={0.48}
           />
-
         </mesh>
 
 
@@ -656,7 +455,6 @@ function Camera3D({
             0.43,
           ]}
         >
-
           <boxGeometry
             args={[
               1.75,
@@ -670,11 +468,10 @@ function Camera3D({
             metalness={0.5}
             roughness={0.42}
           />
-
         </mesh>
 
 
-        {/* HAND GRIP */}
+        {/* GRIP */}
 
         <mesh
           position={[
@@ -683,7 +480,6 @@ function Camera3D({
             0.06,
           ]}
         >
-
           <boxGeometry
             args={[
               0.5,
@@ -697,32 +493,6 @@ function Camera3D({
             metalness={0.18}
             roughness={0.72}
           />
-
-        </mesh>
-
-
-        <mesh
-          position={[
-            -1.33,
-            -0.07,
-            0.28,
-          ]}
-        >
-
-          <boxGeometry
-            args={[
-              0.11,
-              1.12,
-              0.52,
-            ]}
-          />
-
-          <meshStandardMaterial
-            color="#101112"
-            metalness={0.05}
-            roughness={0.9}
-          />
-
         </mesh>
 
 
@@ -735,7 +505,6 @@ function Camera3D({
             0,
           ]}
         >
-
           <boxGeometry
             args={[
               1.55,
@@ -749,7 +518,6 @@ function Camera3D({
             metalness={0.58}
             roughness={0.36}
           />
-
         </mesh>
 
 
@@ -762,7 +530,6 @@ function Camera3D({
             -0.02,
           ]}
         >
-
           <boxGeometry
             args={[
               0.78,
@@ -776,32 +543,6 @@ function Camera3D({
             metalness={0.42}
             roughness={0.5}
           />
-
-        </mesh>
-
-
-        <mesh
-          position={[
-            0.22,
-            1.05,
-            -0.325,
-          ]}
-        >
-
-          <planeGeometry
-            args={[
-              0.39,
-              0.2,
-            ]}
-          />
-
-          <meshPhysicalMaterial
-            color="#0b1013"
-            roughness={0.16}
-            clearcoat={1}
-            clearcoatRoughness={0.06}
-          />
-
         </mesh>
 
 
@@ -814,7 +555,6 @@ function Camera3D({
             0,
           ]}
         >
-
           <boxGeometry
             args={[
               0.32,
@@ -828,7 +568,6 @@ function Camera3D({
             metalness={0.85}
             roughness={0.2}
           />
-
         </mesh>
 
 
@@ -841,11 +580,10 @@ function Camera3D({
             0.02,
           ]}
         >
-
           <cylinderGeometry
             args={[
-              0.23,
-              0.23,
+              0.22,
+              0.22,
               0.09,
               48,
             ]}
@@ -854,13 +592,12 @@ function Camera3D({
           <meshStandardMaterial
             color="#18191a"
             metalness={0.6}
-            roughness={0.42}
+            roughness={0.4}
           />
-
         </mesh>
 
 
-        {/* SHUTTER BUTTON */}
+        {/* SHUTTER */}
 
         <mesh
           position={[
@@ -869,22 +606,20 @@ function Camera3D({
             0.28,
           ]}
         >
-
           <cylinderGeometry
             args={[
-              0.11,
-              0.11,
+              0.1,
+              0.1,
               0.055,
               32,
             ]}
           />
 
           <meshStandardMaterial
-            color="#a5a7a8"
+            color="#a0a2a4"
             metalness={0.9}
-            roughness={0.18}
+            roughness={0.2}
           />
-
         </mesh>
 
 
@@ -902,7 +637,6 @@ function Camera3D({
             0,
           ]}
         >
-
           <cylinderGeometry
             args={[
               0.72,
@@ -917,7 +651,6 @@ function Camera3D({
             metalness={0.9}
             roughness={0.16}
           />
-
         </mesh>
 
 
@@ -927,7 +660,7 @@ function Camera3D({
           position={[
             0.25,
             0,
-            0.72,
+            0.73,
           ]}
           rotation={[
             Math.PI / 2,
@@ -935,12 +668,11 @@ function Camera3D({
             0,
           ]}
         >
-
           <cylinderGeometry
             args={[
               0.69,
               0.72,
-              0.34,
+              0.36,
               64,
             ]}
           />
@@ -950,7 +682,6 @@ function Camera3D({
             metalness={0.48}
             roughness={0.5}
           />
-
         </mesh>
 
 
@@ -960,7 +691,7 @@ function Camera3D({
           position={[
             0.25,
             0,
-            0.93,
+            0.98,
           ]}
           rotation={[
             Math.PI / 2,
@@ -968,12 +699,11 @@ function Camera3D({
             0,
           ]}
         >
-
           <cylinderGeometry
             args={[
-              0.685,
-              0.685,
-              0.12,
+              0.68,
+              0.68,
+              0.14,
               64,
             ]}
           />
@@ -983,42 +713,16 @@ function Camera3D({
             metalness={0.28}
             roughness={0.82}
           />
-
         </mesh>
 
+
+        {/* SECOND LENS BARREL */}
 
         <mesh
           position={[
             0.25,
             0,
-            0.995,
-          ]}
-        >
-
-          <ringGeometry
-            args={[
-              0.58,
-              0.66,
-              64,
-            ]}
-          />
-
-          <meshStandardMaterial
-            color="#343638"
-            metalness={0.65}
-            roughness={0.38}
-          />
-
-        </mesh>
-
-
-        {/* SECOND BARREL */}
-
-        <mesh
-          position={[
-            0.25,
-            0,
-            1.14,
+            1.18,
           ]}
           rotation={[
             Math.PI / 2,
@@ -1026,7 +730,6 @@ function Camera3D({
             0,
           ]}
         >
-
           <cylinderGeometry
             args={[
               0.61,
@@ -1041,7 +744,6 @@ function Camera3D({
             metalness={0.52}
             roughness={0.42}
           />
-
         </mesh>
 
 
@@ -1051,7 +753,7 @@ function Camera3D({
           position={[
             0.25,
             0,
-            1.33,
+            1.37,
           ]}
           rotation={[
             Math.PI / 2,
@@ -1059,7 +761,6 @@ function Camera3D({
             0,
           ]}
         >
-
           <cylinderGeometry
             args={[
               0.6,
@@ -1074,45 +775,18 @@ function Camera3D({
             metalness={0.72}
             roughness={0.28}
           />
-
         </mesh>
 
+
+        {/* GLASS */}
 
         <mesh
           position={[
             0.25,
             0,
-            1.385,
+            1.43,
           ]}
         >
-
-          <ringGeometry
-            args={[
-              0.535,
-              0.585,
-              64,
-            ]}
-          />
-
-          <meshStandardMaterial
-            color="#777a7c"
-            metalness={0.95}
-            roughness={0.14}
-          />
-
-        </mesh>
-
-
-        {/* FRONT GLASS */}
-
-        <mesh
-          position={[
-            0.25,
-            0,
-            1.405,
-          ]}
-        >
-
           <circleGeometry
             args={[
               0.525,
@@ -1125,20 +799,19 @@ function Camera3D({
             roughness={0.06}
             clearcoat={1}
             clearcoatRoughness={0.025}
-            reflectivity={1}
           />
-
         </mesh>
 
+
+        {/* INNER GLASS */}
 
         <mesh
           position={[
             0.25,
             0,
-            1.415,
+            1.44,
           ]}
         >
-
           <circleGeometry
             args={[
               0.39,
@@ -1147,54 +820,18 @@ function Camera3D({
           />
 
           <meshPhysicalMaterial
-            color="#05141c"
+            color="#041017"
             roughness={0.04}
             clearcoat={1}
             clearcoatRoughness={0.02}
             transparent
             opacity={0.88}
           />
-
-        </mesh>
-
-
-        {/* LENS REFLECTION */}
-
-        <mesh
-          position={[
-            0.08,
-            0.17,
-            1.425,
-          ]}
-          rotation={[
-            0,
-            0,
-            -0.3,
-          ]}
-        >
-
-          <planeGeometry
-            args={[
-              0.16,
-              0.05,
-            ]}
-          />
-
-          <meshBasicMaterial
-            color="#9cc5d3"
-            transparent
-            opacity={0.14}
-            depthWrite={false}
-          />
-
         </mesh>
 
       </group>
-
     </group>
-
   );
-
 }
 
 
@@ -1206,36 +843,79 @@ function PhotoFrame({
   id,
   index,
   texture,
-  position,
+
+  desktopPosition,
+  mobilePosition,
+
   rotation,
-  scale = 1,
+
+  desktopScale,
+  mobileScale,
+
   speed = 1,
   introDelay = 1,
+
   disperse = [
     0,
     0,
     0,
   ],
+
   scrollProgressRef,
+
   hoveredId,
   setHoveredId,
+
   onSelect,
 }) {
-
-  const introRef =
-    useRef();
-
-  const frameRef =
-    useRef();
+  const introRef = useRef();
+  const frameRef = useRef();
 
   const photoMaterialRef =
     useRef();
 
-  const frameMaterialRef =
-    useRef();
 
-  const glowMaterialRef =
-    useRef();
+  const {
+    size,
+    viewport,
+  } = useThree();
+
+
+  const isMobile =
+    size.width <= 800;
+
+
+  const basePosition =
+    isMobile
+      ? mobilePosition
+      : desktopPosition;
+
+
+  const baseScale =
+    isMobile
+      ? mobileScale
+      : desktopScale;
+
+
+  /*
+    IMPORTANT FIX
+
+    Current Canvas viewport च्या
+    बाहेर photo जाऊ शकणार नाही.
+  */
+
+  const safetyMargin =
+    isMobile
+      ? 0.85
+      : 1.25;
+
+
+  const safeXLimit =
+    Math.max(
+      1.2,
+      viewport.width / 2 -
+        safetyMargin
+    );
 
 
   const isHovered =
@@ -1248,358 +928,160 @@ function PhotoFrame({
 
 
   useEffect(() => {
-
-    if (
-      !introRef.current
-    ) {
-      return;
-    }
-
-
-    gsap.set(
-      introRef.current.position,
-      {
-        z: -2.5,
-        y: 0.8,
-      }
-    );
-
+    if (!introRef.current) return;
 
     gsap.set(
       introRef.current.scale,
       {
-        x: 0.25,
-        y: 0.25,
-        z: 0.25,
+        x: 0.3,
+        y: 0.3,
+        z: 0.3,
       }
     );
-
-
-    gsap.set(
-      introRef.current.rotation,
-      {
-        z: -0.25,
-      }
-    );
-
 
     const animation =
-      gsap.timeline({
-        delay:
-          introDelay,
-      });
+      gsap.to(
+        introRef.current.scale,
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+          duration: 1.1,
+          delay: introDelay,
+          ease: "back.out(1.2)",
+        }
+      );
 
-
-    animation.to(
-      introRef.current.position,
-      {
-        z: 0,
-        y: 0,
-        duration: 1.25,
-        ease: "power3.out",
-      }
-    );
-
-
-    animation.to(
-      introRef.current.scale,
-      {
-        x: 1,
-        y: 1,
-        z: 1,
-        duration: 1.25,
-        ease: "back.out(1.4)",
-      },
-      "<"
-    );
-
-
-    animation.to(
-      introRef.current.rotation,
-      {
-        z: 0,
-        duration: 1.25,
-        ease: "power3.out",
-      },
-      "<"
-    );
-
-
-    return () => {
-
+    return () =>
       animation.kill();
-
-    };
-
-  }, [
-    introDelay,
-  ]);
+  }, [introDelay]);
 
 
-  useFrame(
-    (state) => {
-
-      if (
-        !frameRef.current
-      ) {
-        return;
-      }
+  useFrame((state) => {
+    if (!frameRef.current) return;
 
 
-      const time =
-        state.clock.elapsedTime *
-        speed;
+    const progress =
+      scrollProgressRef?.current || 0;
 
 
-      const progress =
-        scrollProgressRef?.current ||
-        0;
+    const scrollStrength =
+      isMobile
+        ? 0.18
+        : 0.35;
 
 
-      const scrollX =
-        disperse[0] *
-        progress;
+    /*
+      Requested position
+    */
 
-
-      const scrollY =
-        disperse[1] *
-        progress;
-
-
-      const scrollZ =
-        disperse[2] *
-        progress;
-
-
-      const targetX =
-        position[0] +
-        scrollX;
-
-
-      const targetY =
-        position[1] +
-        Math.sin(time) *
-          0.1 +
-        scrollY;
-
-
-      const targetZ =
-        position[2] +
-        scrollZ +
-        (
-          isHovered
-            ? 1
-            : 0
-        );
-
-
-      frameRef.current.position.x =
-        THREE.MathUtils.lerp(
-          frameRef.current.position.x,
-          targetX,
-          0.06
-        );
-
-
-      frameRef.current.position.y =
-        THREE.MathUtils.lerp(
-          frameRef.current.position.y,
-          targetY,
-          0.06
-        );
-
-
-      frameRef.current.position.z =
-        THREE.MathUtils.lerp(
-          frameRef.current.position.z,
-          targetZ,
-          0.06
-        );
-
-
-      const targetRotationY =
-        rotation[1] +
-        state.pointer.x *
-          (
-            isHovered
-              ? 0.16
-              : 0.08
-          ) +
+    const requestedX =
+      basePosition[0] +
+      disperse[0] *
         progress *
-          disperse[0] *
-          0.04;
+        scrollStrength;
 
 
-      const targetRotationX =
-        rotation[0] -
-        state.pointer.y *
-          (
-            isHovered
-              ? 0.08
-              : 0.035
-          );
+    /*
+      Clamp = screen बाहेर जाऊ देणार नाही.
+    */
 
-
-      frameRef.current.rotation.y =
-        THREE.MathUtils.lerp(
-          frameRef.current.rotation.y,
-          targetRotationY,
-          0.08
-        );
-
-
-      frameRef.current.rotation.x =
-        THREE.MathUtils.lerp(
-          frameRef.current.rotation.x,
-          targetRotationX,
-          0.08
-        );
-
-
-      frameRef.current.rotation.z =
-        rotation[2] +
-        Math.sin(
-          time * 0.6
-        ) *
-          0.02 +
-        progress *
-          disperse[1] *
-          0.03;
-
-
-      let targetScale =
-        scale *
-        (
-          isHovered
-            ? 1.22
-            : 1
-        );
-
-
-      targetScale *=
-        1 -
-        progress *
-          0.16;
-
-
-      const smoothScale =
-        THREE.MathUtils.lerp(
-          frameRef.current.scale.x,
-          targetScale,
-          0.08
-        );
-
-
-      frameRef.current.scale.setScalar(
-        smoothScale
+    const targetX =
+      THREE.MathUtils.clamp(
+        requestedX,
+        -safeXLimit,
+        safeXLimit
       );
 
 
-      let targetOpacity =
-        isDimmed
-          ? 0.28
-          : 1;
+    const targetY =
+      basePosition[1] +
+      Math.sin(
+        state.clock.elapsedTime *
+          speed
+      ) *
+        0.06;
 
 
-      targetOpacity *=
-        1 -
-        progress *
-          0.55;
+    const targetZ =
+      basePosition[2] +
+      (isHovered
+        ? 0.5
+        : 0);
 
 
-      if (
-        photoMaterialRef.current
-      ) {
-
-        photoMaterialRef.current.opacity =
-          THREE.MathUtils.lerp(
-            photoMaterialRef.current.opacity,
-            targetOpacity,
-            0.08
-          );
-
-      }
+    frameRef.current.position.x =
+      THREE.MathUtils.lerp(
+        frameRef.current.position.x,
+        targetX,
+        0.07
+      );
 
 
-      if (
-        frameMaterialRef.current
-      ) {
-
-        frameMaterialRef.current.opacity =
-          THREE.MathUtils.lerp(
-            frameMaterialRef.current.opacity,
-            targetOpacity,
-            0.08
-          );
-
-      }
+    frameRef.current.position.y =
+      THREE.MathUtils.lerp(
+        frameRef.current.position.y,
+        targetY,
+        0.07
+      );
 
 
-      if (
-        glowMaterialRef.current
-      ) {
+    frameRef.current.position.z =
+      THREE.MathUtils.lerp(
+        frameRef.current.position.z,
+        targetZ,
+        0.07
+      );
 
-        glowMaterialRef.current.opacity =
-          THREE.MathUtils.lerp(
-            glowMaterialRef.current.opacity,
-            isHovered
-              ? 0.48
-              : 0,
-            0.08
-          );
 
-      }
+    const targetScale =
+      baseScale *
+      (isHovered
+        ? 1.1
+        : 1);
 
+
+    const smoothScale =
+      THREE.MathUtils.lerp(
+        frameRef.current.scale.x,
+        targetScale,
+        0.07
+      );
+
+
+    frameRef.current.scale.setScalar(
+      smoothScale
+    );
+
+
+    if (
+      photoMaterialRef.current
+    ) {
+      photoMaterialRef.current.opacity =
+        THREE.MathUtils.lerp(
+          photoMaterialRef.current.opacity,
+          isDimmed
+            ? 0.38
+            : 1,
+          0.07
+        );
     }
-  );
+  });
 
 
   return (
-
-    <group
-      ref={introRef}
-    >
+    <group ref={introRef}>
 
       <group
         ref={frameRef}
-        position={position}
+        position={basePosition}
         rotation={rotation}
-        scale={scale}
+        scale={baseScale}
       >
 
-        <mesh
-          position={[
-            0,
-            0,
-            -0.07,
-          ]}
-        >
-
-          <planeGeometry
-            args={[
-              1.75,
-              2.25,
-            ]}
-          />
-
-          <meshBasicMaterial
-            ref={
-              glowMaterialRef
-            }
-            color="#d69d52"
-            transparent
-            opacity={0}
-            depthWrite={false}
-            side={
-              THREE.DoubleSide
-            }
-          />
-
-        </mesh>
-
+        {/* GOLD FRAME */}
 
         <mesh>
-
           <boxGeometry
             args={[
               1.42,
@@ -1609,18 +1091,14 @@ function PhotoFrame({
           />
 
           <meshStandardMaterial
-            ref={
-              frameMaterialRef
-            }
-            color="#a77943"
-            metalness={0.85}
-            roughness={0.24}
-            transparent
-            opacity={1}
+            color="#9c7545"
+            metalness={0.8}
+            roughness={0.26}
           />
-
         </mesh>
 
+
+        {/* DARK INNER */}
 
         <mesh
           position={[
@@ -1629,7 +1107,6 @@ function PhotoFrame({
             0.052,
           ]}
         >
-
           <planeGeometry
             args={[
               1.32,
@@ -1640,9 +1117,10 @@ function PhotoFrame({
           <meshBasicMaterial
             color="#050505"
           />
-
         </mesh>
 
+
+        {/* PHOTO */}
 
         <mesh
           position={[
@@ -1651,7 +1129,6 @@ function PhotoFrame({
             0.065,
           ]}
         >
-
           <planeGeometry
             args={[
               1.23,
@@ -1668,55 +1145,54 @@ function PhotoFrame({
             opacity={1}
             toneMapped={false}
           />
-
         </mesh>
 
+
+        {/* TOUCH AREA */}
 
         <mesh
           position={[
             0,
             0,
-            0.09,
+            0.11,
           ]}
-          onPointerOver={
-            (event) => {
 
-              event.stopPropagation();
+          onPointerOver={(
+            event
+          ) => {
+            event.stopPropagation();
 
-              setHoveredId(
-                id
-              );
+            setHoveredId(id);
+          }}
 
-            }
-          }
-          onPointerOut={
-            (event) => {
+          onPointerOut={(
+            event
+          ) => {
+            event.stopPropagation();
 
-              event.stopPropagation();
+            setHoveredId(null);
+          }}
 
-              setHoveredId(
-                null
-              );
+          onPointerDown={(
+            event
+          ) => {
+            event.stopPropagation();
 
-            }
-          }
-          onClick={
-            (event) => {
+            onSelect(index);
+          }}
 
-              event.stopPropagation();
+          onClick={(
+            event
+          ) => {
+            event.stopPropagation();
 
-              onSelect(
-                index
-              );
-
-            }
-          }
+            onSelect(index);
+          }}
         >
-
           <planeGeometry
             args={[
-              1.45,
-              1.95,
+              1.55,
+              2,
             ]}
           />
 
@@ -1728,15 +1204,11 @@ function PhotoFrame({
               THREE.DoubleSide
             }
           />
-
         </mesh>
 
       </group>
-
     </group>
-
   );
-
 }
 
 
@@ -1748,12 +1220,10 @@ function HeroScene({
   onSelectPhoto,
   scrollProgressRef,
 }) {
-
   const [
     hoveredId,
     setHoveredId,
-  ] =
-    useState(null);
+  ] = useState(null);
 
 
   const textures =
@@ -1771,15 +1241,12 @@ function HeroScene({
     weddingTexture,
     portraitTexture,
     eventTexture,
-  ] =
-    textures;
+  ] = textures;
 
 
   useEffect(() => {
-
     textures.forEach(
       (texture) => {
-
         texture.colorSpace =
           THREE.SRGBColorSpace;
 
@@ -1789,45 +1256,17 @@ function HeroScene({
         texture.magFilter =
           THREE.LinearFilter;
 
-        texture.generateMipmaps =
-          true;
-
         texture.needsUpdate =
           true;
-
       }
     );
-
-  }, [
-    textures,
-  ]);
-
-
-  useEffect(() => {
-
-    document.body.style.cursor =
-      hoveredId !== null
-        ? "pointer"
-        : "default";
-
-
-    return () => {
-
-      document.body.style.cursor =
-        "default";
-
-    };
-
-  }, [
-    hoveredId,
-  ]);
+  }, [textures]);
 
 
   return (
-
     <>
 
-      {/* SOFT STUDIO LIGHTING */}
+      {/* LIGHTING */}
 
       <ambientLight
         intensity={1.15}
@@ -1879,20 +1318,7 @@ function HeroScene({
       />
 
 
-      <pointLight
-        position={[
-          4,
-          1,
-          2,
-        ]}
-        intensity={3.5}
-        distance={9}
-        decay={2}
-        color="#8fb1c3"
-      />
-
-
-      {/* GLITTER BEHIND / AROUND CAMERA */}
+      {/* GLITTER */}
 
       <CameraGlitter
         scrollProgressRef={
@@ -1901,6 +1327,8 @@ function HeroScene({
       />
 
 
+      {/* CAMERA */}
+
       <Camera3D
         scrollProgressRef={
           scrollProgressRef
@@ -1908,44 +1336,64 @@ function HeroScene({
       />
 
 
+      {/* LEFT WEDDING */}
+
       <PhotoFrame
         id="wedding"
         index={0}
         texture={
           weddingTexture
         }
-        position={[
-          -2.7,
-          1.4,
-          -1,
+
+        desktopPosition={[
+          -2.15,
+          1.3,
+          -0.9,
         ]}
+
+        mobilePosition={[
+          -1.4,
+          1.1,
+          -0.65,
+        ]}
+
         rotation={[
           -0.04,
-          0.3,
-          -0.1,
+          0.18,
+          -0.08,
         ]}
-        scale={0.48}
+
+        desktopScale={0.43}
+        mobileScale={0.32}
+
         speed={0.8}
-        introDelay={0.95}
+        introDelay={0.7}
+
         disperse={[
-          -2.4,
-          1,
-          -1.5,
+          -1.3,
+          0.5,
+          -0.5,
         ]}
+
         scrollProgressRef={
           scrollProgressRef
         }
+
         hoveredId={
           hoveredId
         }
+
         setHoveredId={
           setHoveredId
         }
+
         onSelect={
           onSelectPhoto
         }
       />
 
+
+      {/* RIGHT PORTRAIT */}
 
       <PhotoFrame
         id="portrait"
@@ -1953,38 +1401,56 @@ function HeroScene({
         texture={
           portraitTexture
         }
-        position={[
-          3,
-          1.25,
+
+        desktopPosition={[
+          2.15,
+          1.2,
           -0.8,
         ]}
+
+        mobilePosition={[
+          1.4,
+          1.05,
+          -0.65,
+        ]}
+
         rotation={[
           0.03,
-          -0.28,
-          0.1,
+          -0.18,
+          0.07,
         ]}
-        scale={0.52}
+
+        desktopScale={0.44}
+        mobileScale={0.32}
+
         speed={1}
-        introDelay={1.2}
+        introDelay={0.9}
+
         disperse={[
-          2.5,
-          1.2,
-          -1.8,
+          1.3,
+          0.5,
+          -0.5,
         ]}
+
         scrollProgressRef={
           scrollProgressRef
         }
+
         hoveredId={
           hoveredId
         }
+
         setHoveredId={
           setHoveredId
         }
+
         onSelect={
           onSelectPhoto
         }
       />
 
+
+      {/* RIGHT BOTTOM EVENT */}
 
       <PhotoFrame
         id="event"
@@ -1992,42 +1458,56 @@ function HeroScene({
         texture={
           eventTexture
         }
-        position={[
-          3,
-          -1.3,
-          -0.4,
+
+        desktopPosition={[
+          2.05,
+          -1.2,
+          -0.55,
         ]}
+
+        mobilePosition={[
+          1.35,
+          -1,
+          -0.55,
+        ]}
+
         rotation={[
           -0.03,
-          -0.2,
-          -0.08,
+          -0.14,
+          -0.06,
         ]}
-        scale={0.44}
+
+        desktopScale={0.39}
+        mobileScale={0.29}
+
         speed={0.7}
-        introDelay={1.45}
+        introDelay={1.05}
+
         disperse={[
-          2.2,
-          -1.5,
-          -1,
+          1.2,
+          -0.5,
+          -0.5,
         ]}
+
         scrollProgressRef={
           scrollProgressRef
         }
+
         hoveredId={
           hoveredId
         }
+
         setHoveredId={
           setHoveredId
         }
+
         onSelect={
           onSelectPhoto
         }
       />
 
     </>
-
   );
-
 }
 
 
