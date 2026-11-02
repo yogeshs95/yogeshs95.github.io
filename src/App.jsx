@@ -7,184 +7,1274 @@ import {
 } from "react";
 
 import { Canvas } from "@react-three/fiber";
+
 import gsap from "gsap";
+
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import HeroScene from "./three/HeroScene";
 
 import "./App.css";
 import "./Step13.css";
+import "./LanguageToggle.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 
 /* =========================================================
-   BRAND
+   BRAND — DO NOT TRANSLATE
 ========================================================= */
 
-const BRAND_NAME = "SHUBHAM CHINGUDE PHOTOFILMS";
-const BRAND_SHORT = "SC";
+const BRAND_NAME =
+  "SHUBHAM CHINGUDE PHOTOFILMS";
+
+const BRAND_SHORT =
+  "SC";
 
 
 /* =========================================================
-   CONTACT
-   PRODUCTION वेळी REAL NUMBER/EMAIL टाका
+   DEMO CONTACT DETAILS
 ========================================================= */
 
-const CONTACT_EMAIL = "hello@shubhamchingude.com";
-const CONTACT_PHONE = "+91 99999 99999";
+const CONTACT_EMAIL =
+  "hello@shubhamchingude.com";
 
-/*
-  IMPORTANT:
-  Country code सहित number.
-  +, spaces किंवा dash नको.
+const CONTACT_PHONE =
+  "+91 99999 99999";
 
-  Example:
-  919876543210
-*/
-
-const WHATSAPP_NUMBER = "919730693378";
+const WHATSAPP_NUMBER =
+  "919999999999";
 
 
 /* =========================================================
-   DATA
+   TRANSLATIONS
+========================================================= */
+
+const translations = {
+
+  /* =======================================================
+     SIMPLE MARATHI
+  ======================================================= */
+
+  mr: {
+
+    nav: {
+      home: "होम",
+      about: "माझ्याबद्दल",
+      portfolio: "माझे फोटो",
+      services: "सेवा",
+      contact: "संपर्क",
+    },
+
+
+    preloader: {
+      loading: "वेबसाइट सुरू होत आहे",
+    },
+
+
+    hero: {
+
+      line1:
+        "तुमचे खास क्षण",
+
+      line2:
+        "कायमचे जपतो",
+
+      categories: [
+        "लग्न",
+        "प्री-वेडिंग",
+        "पोर्ट्रेट",
+        "कार्यक्रम",
+        "फॅशन",
+      ],
+
+      description1:
+        "प्रत्येक फोटोमागे एक खास आठवण असते.",
+
+      description2:
+        "तुमच्या आयुष्यातले सुंदर क्षण आम्ही फोटोमध्ये कायमचे जपतो.",
+
+      portfolioButton:
+        "माझे फोटो पहा →",
+
+      showreel:
+        "▶  व्हिडिओ पहा",
+
+      interactive:
+        "फोटो गॅलरी",
+
+      interaction:
+        "टच • क्लिक • स्क्रोल",
+
+      scroll:
+        "खाली स्क्रोल करा",
+    },
+
+
+    about: {
+
+      eyebrow:
+        "माझ्याबद्दल",
+
+      heading1:
+        "फक्त फोटो नाही,",
+
+      heading2:
+        "आठवणी जपतो.",
+
+      lead:
+        "फोटोग्राफी म्हणजे फक्त कॅमेऱ्याने फोटो काढणं नाही.",
+
+      copy1:
+        "एक सुंदर हसू, आनंदाचा क्षण, कुटुंबासोबतचा वेळ किंवा आयुष्यातला खास दिवस — अशा छोट्या छोट्या गोष्टी फोटोमध्ये जपणं मला आवडतं.",
+
+      copy2:
+        "माझा प्रयत्न एवढाच असतो की अनेक वर्षांनी हे फोटो पाहिल्यावर तुम्हाला तो दिवस पुन्हा आठवावा.",
+
+      photographer:
+        "फोटोग्राफर",
+
+      label:
+        "तुमचे खास क्षण जपताना",
+
+      experience:
+        "वर्षांचा अनुभव",
+
+      shoots:
+        "फोटोशूट्स",
+
+      clients:
+        "आनंदी ग्राहक",
+    },
+
+
+    portfolio: {
+
+      eyebrow:
+        "माझे फोटो",
+
+      heading1:
+        "मी टिपलेले",
+
+      heading2:
+        "खास क्षण.",
+
+      intro:
+        "लग्न, प्री-वेडिंग, पोर्ट्रेट आणि विविध कार्यक्रमांमध्ये टिपलेले काही खास फोटो.",
+
+      filters: {
+        all: "सर्व",
+        wedding: "लग्न",
+        portrait: "पोर्ट्रेट",
+        events: "कार्यक्रम",
+      },
+
+      viewStory:
+        "फोटो पहा",
+
+      selected:
+        "निवडक फोटो",
+
+      coming:
+        "आणखी फोटो लवकरच",
+    },
+
+
+    photos: {
+
+      wedding: {
+        title:
+          "लग्नाचे खास क्षण",
+
+        shortTitle:
+          "नव्या आयुष्याची सुरुवात",
+
+        category:
+          "लग्न फोटोग्राफी",
+      },
+
+
+      portrait: {
+        title:
+          "पोर्ट्रेट फोटो",
+
+        shortTitle:
+          "चेहरा आणि भावना",
+
+        category:
+          "पोर्ट्रेट फोटोग्राफी",
+      },
+
+
+      events: {
+        title:
+          "कार्यक्रमाचे फोटो",
+
+        shortTitle:
+          "प्रत्येक खास क्षण",
+
+        category:
+          "इव्हेंट फोटोग्राफी",
+      },
+    },
+
+
+    services: {
+
+      eyebrow:
+        "आमच्या सेवा",
+
+      heading1:
+        "तुमच्या खास दिवसासाठी",
+
+      heading2:
+        "सुंदर फोटोग्राफी.",
+
+      intro:
+        "प्रत्येक कार्यक्रम आणि प्रत्येक व्यक्ती वेगळी असते. त्यामुळे तुमची गरज समजून फोटोशूट करण्यावर आमचा भर असतो.",
+
+      explore:
+        "सेवा पहा",
+
+      quote:
+        "चांगला फोटो तोच, जो पाहिल्यावर त्या क्षणाची आठवण पुन्हा जिवंत होते.",
+
+      items: [
+
+        {
+          number: "01",
+
+          title:
+            "लग्न फोटोग्राफी",
+
+          subtitle:
+            "तुमचा खास दिवस",
+
+          description:
+            "लग्नातील विधी, कुटुंब, हसू, आनंद आणि छोट्या छोट्या खास क्षणांचे सुंदर फोटो.",
+
+          image:
+            "/images-optimized/wedding.webp",
+        },
+
+
+        {
+          number: "02",
+
+          title:
+            "प्री-वेडिंग",
+
+          subtitle:
+            "लग्नाआधीचे खास क्षण",
+
+          description:
+            "तुमच्या आवडीच्या ठिकाणी आणि तुमच्या स्टाईलनुसार सुंदर कपल फोटोशूट.",
+
+          image:
+            "/images-optimized/event.webp",
+        },
+
+
+        {
+          number: "03",
+
+          title:
+            "पोर्ट्रेट",
+
+          subtitle:
+            "तुमची खास ओळख",
+
+          description:
+            "नैसर्गिक हावभाव आणि सुंदर प्रकाशात प्रोफेशनल पोर्ट्रेट फोटो.",
+
+          image:
+            "/images-optimized/portrait.webp",
+        },
+
+
+        {
+          number: "04",
+
+          title:
+            "कार्यक्रम",
+
+          subtitle:
+            "प्रत्येक क्षणाची आठवण",
+
+          description:
+            "वाढदिवस, साखरपुडा, कौटुंबिक कार्यक्रम, कंपनी इव्हेंट आणि इतर कार्यक्रमांचे फोटो.",
+
+          image:
+            "/images-optimized/event.webp",
+        },
+
+
+        {
+          number: "05",
+
+          title:
+            "फॅशन / कमर्शियल",
+
+          subtitle:
+            "प्रोफेशनल फोटो",
+
+          description:
+            "फॅशन, ब्रँड, व्यवसाय आणि जाहिरातींसाठी आकर्षक आणि प्रोफेशनल फोटोशूट.",
+
+          image:
+            "/images-optimized/portrait.webp",
+        },
+
+      ],
+    },
+
+
+    testimonials: {
+
+      eyebrow:
+        "ग्राहकांचे अनुभव",
+
+      heading1:
+        "आमच्याबद्दल",
+
+      heading2:
+        "ग्राहक काय म्हणतात.",
+
+      intro:
+        "चांगले फोटो जितके महत्त्वाचे आहेत, तितकाच फोटोशूटचा चांगला अनुभवही महत्त्वाचा आहे.",
+
+      clientExperience:
+        "ग्राहकांचा अनुभव",
+
+      items: [
+
+        {
+          number: "01",
+
+          name:
+            "आरव आणि मीरा",
+
+          type:
+            "लग्न फोटोग्राफी",
+
+          location:
+            "पुणे",
+
+          quote:
+            "आमच्या लग्नातील प्रत्येक खास क्षण खूप सुंदरपणे टिपला गेला. फोटो पाहिल्यावर आजही त्या दिवसाची आठवण ताजी होते.",
+        },
+
+
+        {
+          number: "02",
+
+          name:
+            "रिया शर्मा",
+
+          type:
+            "पोर्ट्रेट फोटोशूट",
+
+          location:
+            "मुंबई",
+
+          quote:
+            "फोटोशूट करताना अजिबात ताण वाटला नाही. फोटो खूप नैसर्गिक आणि सुंदर आले.",
+        },
+
+
+        {
+          number: "03",
+
+          name:
+            "कुणाल इव्हेंट्स",
+
+          type:
+            "इव्हेंट फोटोग्राफी",
+
+          location:
+            "नाशिक",
+
+          quote:
+            "कार्यक्रमातील महत्त्वाचे आणि कॅन्डिड दोन्ही प्रकारचे क्षण खूप छान टिपले गेले.",
+        },
+
+
+        {
+          number: "04",
+
+          name:
+            "अनाया स्टुडिओ",
+
+          type:
+            "कमर्शियल फोटोशूट",
+
+          location:
+            "पुणे",
+
+          quote:
+            "फोटो खूप प्रोफेशनल आले आणि आमच्या ब्रँडला एक चांगला लूक मिळाला.",
+        },
+
+      ],
+    },
+
+
+    contact: {
+
+      eyebrow:
+        "संपर्क करा",
+
+      heading1:
+        "तुमचा खास दिवस",
+
+      heading2:
+        "आपण सुंदर आठवणीत जपूया.",
+
+      intro:
+        "तुमच्या कार्यक्रमाबद्दल किंवा फोटोशूटबद्दल थोडी माहिती आम्हाला सांगा.",
+
+
+      getInTouch:
+        "आमच्याशी संपर्क करा",
+
+
+      question1:
+        "तुमचा एखादा",
+
+      question2:
+        "खास कार्यक्रम आहे का?",
+
+
+      copy:
+        "लग्न, प्री-वेडिंग, पोर्ट्रेट, वाढदिवस, कार्यक्रम किंवा कमर्शियल फोटोशूटसाठी आमच्याशी संपर्क करा.",
+
+
+      phone:
+        "फोन",
+
+
+      email:
+        "ई-मेल",
+
+
+      location:
+        "ठिकाण",
+
+
+      availability:
+        "सेवा",
+
+
+      locationValue:
+        "महाराष्ट्र, भारत",
+
+
+      travel:
+        "बाहेरगावीही उपलब्ध",
+
+
+      quick:
+        "लगेच संपर्क करा",
+
+
+      whatsapp:
+        "WhatsApp वर मेसेज करा",
+
+
+      demo:
+        "Live करण्याआधी खरा फोन नंबर, WhatsApp नंबर आणि ई-मेल टाका.",
+
+
+      booking:
+        "फोटोशूट बुक करा",
+
+
+      name:
+        "तुमचे नाव *",
+
+
+      namePlaceholder:
+        "तुमचे नाव लिहा",
+
+
+      phoneLabel:
+        "फोन नंबर *",
+
+
+      emailLabel:
+        "ई-मेल *",
+
+
+      emailPlaceholder:
+        "तुमचा ई-मेल",
+
+
+      service:
+        "कोणती सेवा हवी आहे? *",
+
+
+      selectService:
+        "सेवा निवडा",
+
+
+      eventDate:
+        "कार्यक्रमाची तारीख",
+
+
+      shootLocation:
+        "कार्यक्रमाचे ठिकाण",
+
+
+      locationPlaceholder:
+        "शहर / हॉल / ठिकाण",
+
+
+      message:
+        "फोटोशूटबद्दल थोडी माहिती द्या *",
+
+
+      messagePlaceholder:
+        "कार्यक्रम कोणता आहे, ठिकाण कुठे आहे आणि तुम्हाला कशा प्रकारचे फोटो हवे आहेत ते सांगा...",
+
+
+      send:
+        "WHATSAPP वर चौकशी पाठवा",
+
+
+      opening:
+        "WHATSAPP उघडत आहे...",
+
+
+      response:
+        "तुमची चौकशी WhatsApp मध्ये उघडेल",
+
+
+      success:
+        "✓ WhatsApp वर मेसेज तयार झाला आहे. मेसेज तपासून Send करा.",
+
+
+      error:
+        "कृपया लाल रंगात दाखवलेली माहिती तपासा.",
+
+
+      validation: {
+
+        name:
+          "कृपया तुमचे नाव लिहा.",
+
+        email:
+          "कृपया ई-मेल लिहा.",
+
+        emailInvalid:
+          "कृपया योग्य ई-मेल लिहा.",
+
+        phone:
+          "कृपया फोन नंबर लिहा.",
+
+        phoneInvalid:
+          "कृपया योग्य फोन नंबर लिहा.",
+
+        service:
+          "कृपया सेवा निवडा.",
+
+        message:
+          "कृपया फोटोशूटबद्दल थोडी माहिती द्या.",
+      },
+
+
+      bookingServices: {
+
+        wedding:
+          "लग्न फोटोग्राफी",
+
+        preWedding:
+          "प्री-वेडिंग",
+
+        portrait:
+          "पोर्ट्रेट",
+
+        event:
+          "इव्हेंट फोटोग्राफी",
+
+        commercial:
+          "फॅशन / कमर्शियल",
+
+        other:
+          "इतर",
+      },
+    },
+
+
+    footer: {
+
+      copy:
+        "तुमचे खास क्षण फोटोमध्ये कायमचे जपतो.",
+
+      explore:
+        "वेबसाइट",
+
+      services:
+        "सेवा",
+
+      contact:
+        "संपर्क",
+
+      weddings:
+        "लग्न",
+
+      portraits:
+        "पोर्ट्रेट",
+
+      events:
+        "कार्यक्रम",
+
+      commercial:
+        "कमर्शियल",
+
+      haveStory:
+        "फोटोशूट करायचं आहे?",
+
+      cta1:
+        "चला तुमचे",
+
+      cta2:
+        "खास क्षण जपूया",
+
+      rights:
+        "सर्व हक्क राखीव.",
+
+      made:
+        "फोटो, भावना आणि आठवणी.",
+
+      back:
+        "वर जा ↑",
+    },
+
+
+    whatsappMessage: {
+
+      hello:
+        `नमस्कार ${BRAND_NAME},`,
+
+      intro:
+        "मला फोटोशूटबद्दल चौकशी करायची आहे.",
+
+      name:
+        "नाव",
+
+      phone:
+        "फोन",
+
+      email:
+        "ई-मेल",
+
+      service:
+        "सेवा",
+
+      date:
+        "तारीख",
+
+      location:
+        "ठिकाण",
+
+      details:
+        "फोटोशूटची माहिती",
+
+      undecided:
+        "अजून ठरलेली नाही",
+
+      unspecified:
+        "माहिती दिलेली नाही",
+
+      ending:
+        "कृपया उपलब्ध तारीख आणि पुढील माहिती सांगा.",
+    },
+
+  },
+
+
+  /* =======================================================
+     ENGLISH
+  ======================================================= */
+
+  en: {
+
+    nav: {
+      home: "Home",
+      about: "About",
+      portfolio: "Portfolio",
+      services: "Services",
+      contact: "Contact",
+    },
+
+
+    preloader: {
+      loading:
+        "Loading Experience",
+    },
+
+
+    hero: {
+
+      line1:
+        "Capturing",
+
+      line2:
+        "Timeless Stories",
+
+      categories: [
+        "Wedding",
+        "Pre-Wedding",
+        "Portrait",
+        "Events",
+        "Fashion",
+      ],
+
+      description1:
+        "Every photograph tells a story.",
+
+      description2:
+        "Capturing emotions, moments and memories that deserve to live forever.",
+
+      portfolioButton:
+        "Explore Portfolio →",
+
+      showreel:
+        "▶  Watch Showreel",
+
+      interactive:
+        "Interactive Gallery",
+
+      interaction:
+        "Hover • Click • Scroll",
+
+      scroll:
+        "Scroll to Discover",
+    },
+
+
+    about: {
+
+      eyebrow:
+        "About the Photographer",
+
+      heading1:
+        "Capturing Emotion,",
+
+      heading2:
+        "Not Just Images.",
+
+      lead:
+        "Photography is more than pressing a shutter.",
+
+      copy1:
+        "It is about noticing the smallest moments — a glance, a smile, a movement and an emotion that may exist only for a second.",
+
+      copy2:
+        "My goal is to transform those moments into photographs that still feel alive years later.",
+
+      photographer:
+        "Photographer",
+
+      label:
+        "Stories Through Light",
+
+      experience:
+        "Years Experience",
+
+      shoots:
+        "Photo Shoots",
+
+      clients:
+        "Happy Clients",
+    },
+
+
+    portfolio: {
+
+      eyebrow:
+        "Selected Work",
+
+      heading1:
+        "Stories Through",
+
+      heading2:
+        "My Lens.",
+
+      intro:
+        "A collection of moments, emotions and stories captured across weddings, portraits and special events.",
+
+      filters: {
+        all: "All",
+        wedding: "Wedding",
+        portrait: "Portrait",
+        events: "Events",
+      },
+
+      viewStory:
+        "View Story",
+
+      selected:
+        "Selected Stories",
+
+      coming:
+        "More Stories Coming Soon",
+    },
+
+
+    photos: {
+
+      wedding: {
+        title:
+          "Wedding Stories",
+        shortTitle:
+          "Forever Begins Here",
+        category:
+          "Wedding Photography",
+      },
+
+      portrait: {
+        title:
+          "Portrait Stories",
+        shortTitle:
+          "Faces & Feelings",
+        category:
+          "Portrait Photography",
+      },
+
+      events: {
+        title:
+          "Event Stories",
+        shortTitle:
+          "Moments In Motion",
+        category:
+          "Event Photography",
+      },
+    },
+
+
+    services: {
+
+      eyebrow:
+        "What I Capture",
+
+      heading1:
+        "Photography Crafted",
+
+      heading2:
+        "Around Your Story.",
+
+      intro:
+        "Every assignment is approached differently — with attention to emotion, personality, atmosphere and the story behind the moment.",
+
+      explore:
+        "Explore Service",
+
+      quote:
+        "The best photograph is the one that makes you feel the moment again.",
+
+      items: [
+
+        {
+          number: "01",
+          title:
+            "Wedding Photography",
+          subtitle:
+            "Timeless celebration",
+          description:
+            "Natural emotions, rituals, details and unforgettable moments captured with a cinematic storytelling approach.",
+          image:
+            "/images-optimized/wedding.webp",
+        },
+
+        {
+          number: "02",
+          title:
+            "Pre-Wedding",
+          subtitle:
+            "Your story before forever",
+          description:
+            "Creative couple portraits designed around your personality, chemistry, location and unique love story.",
+          image:
+            "/images-optimized/event.webp",
+        },
+
+        {
+          number: "03",
+          title:
+            "Portrait",
+          subtitle:
+            "Character through light",
+          description:
+            "Expressive portraits focused on personality, mood, natural expressions and beautiful light.",
+          image:
+            "/images-optimized/portrait.webp",
+        },
+
+        {
+          number: "04",
+          title:
+            "Events",
+          subtitle:
+            "Every moment remembered",
+          description:
+            "Professional coverage for celebrations, corporate functions, birthdays, ceremonies and special occasions.",
+          image:
+            "/images-optimized/event.webp",
+        },
+
+        {
+          number: "05",
+          title:
+            "Fashion / Commercial",
+          subtitle:
+            "Visuals that stand out",
+          description:
+            "Editorial, fashion and commercial photography focused on strong compositions and premium visual presentation.",
+          image:
+            "/images-optimized/portrait.webp",
+        },
+
+      ],
+    },
+
+
+    testimonials: {
+
+      eyebrow:
+        "Client Stories",
+
+      heading1:
+        "What They Felt,",
+
+      heading2:
+        "In Their Words.",
+
+      intro:
+        "The photographs matter, but the experience of creating them matters just as much.",
+
+      clientExperience:
+        "Client Experience",
+
+      items: [
+
+        {
+          number: "01",
+          name: "Aarav & Meera",
+          type:
+            "Wedding Photography",
+          location: "Pune",
+          quote:
+            "Every special moment from our wedding was captured beautifully. Looking at the photographs brings the day back to life.",
+        },
+
+        {
+          number: "02",
+          name: "Riya Sharma",
+          type:
+            "Portrait Session",
+          location: "Mumbai",
+          quote:
+            "The shoot felt easy and comfortable. The final photographs looked natural and beautiful.",
+        },
+
+        {
+          number: "03",
+          name: "Kunal Events",
+          type:
+            "Event Photography",
+          location: "Nashik",
+          quote:
+            "Both important and candid moments from the event were captured beautifully.",
+        },
+
+        {
+          number: "04",
+          name: "Anaya Studio",
+          type:
+            "Commercial Photography",
+          location: "Pune",
+          quote:
+            "The photographs looked professional and gave our brand a stronger visual identity.",
+        },
+
+      ],
+    },
+
+
+    contact: {
+
+      eyebrow:
+        "Start a Conversation",
+
+      heading1:
+        "Let's Create Something",
+
+      heading2:
+        "Timeless Together.",
+
+      intro:
+        "Tell me about your story, event and the moments you want to remember.",
+
+      getInTouch:
+        "Get in Touch",
+
+      question1:
+        "Have a story",
+
+      question2:
+        "worth capturing?",
+
+      copy:
+        "Whether you're planning a wedding, portrait session, event or commercial shoot, send the details and let's create something meaningful.",
+
+      phone:
+        "Phone",
+
+      email:
+        "Email",
+
+      location:
+        "Location",
+
+      availability:
+        "Availability",
+
+      locationValue:
+        "Maharashtra, India",
+
+      travel:
+        "Available for Travel",
+
+      quick:
+        "Quick Enquiry",
+
+      whatsapp:
+        "Chat on WhatsApp",
+
+      demo:
+        "Replace demo phone, WhatsApp and email before publishing.",
+
+      booking:
+        "Book Your Shoot",
+
+      name:
+        "Your Name *",
+
+      namePlaceholder:
+        "Enter your name",
+
+      phoneLabel:
+        "Phone *",
+
+      emailLabel:
+        "Email *",
+
+      emailPlaceholder:
+        "you@example.com",
+
+      service:
+        "Service *",
+
+      selectService:
+        "Select service",
+
+      eventDate:
+        "Event Date",
+
+      shootLocation:
+        "Location",
+
+      locationPlaceholder:
+        "City / Venue",
+
+      message:
+        "Tell Me About Your Shoot *",
+
+      messagePlaceholder:
+        "Tell me about your event, ideas, venue and preferred style...",
+
+      send:
+        "Send on WhatsApp",
+
+      opening:
+        "Opening WhatsApp...",
+
+      response:
+        "Enquiry opens directly in WhatsApp",
+
+      success:
+        "✓ WhatsApp enquiry is ready. Review the message and tap Send.",
+
+      error:
+        "Please check the highlighted fields.",
+
+      validation: {
+
+        name:
+          "Please enter your name.",
+
+        email:
+          "Please enter your email.",
+
+        emailInvalid:
+          "Please enter a valid email.",
+
+        phone:
+          "Please enter your phone number.",
+
+        phoneInvalid:
+          "Please enter a valid phone number.",
+
+        service:
+          "Please select a service.",
+
+        message:
+          "Please tell us something about your shoot.",
+      },
+
+
+      bookingServices: {
+
+        wedding:
+          "Wedding Photography",
+
+        preWedding:
+          "Pre-Wedding",
+
+        portrait:
+          "Portrait",
+
+        event:
+          "Event Photography",
+
+        commercial:
+          "Fashion / Commercial",
+
+        other:
+          "Other",
+      },
+    },
+
+
+    footer: {
+
+      copy:
+        "Capturing moments that deserve to live forever.",
+
+      explore:
+        "Explore",
+
+      services:
+        "Services",
+
+      contact:
+        "Contact",
+
+      weddings:
+        "Weddings",
+
+      portraits:
+        "Portraits",
+
+      events:
+        "Events",
+
+      commercial:
+        "Commercial",
+
+      haveStory:
+        "Have a Story?",
+
+      cta1:
+        "Let's create",
+
+      cta2:
+        "something timeless",
+
+      rights:
+        "All Rights Reserved.",
+
+      made:
+        "Made with light, emotion & stories.",
+
+      back:
+        "Back to Top ↑",
+    },
+
+
+    whatsappMessage: {
+
+      hello:
+        `Hello ${BRAND_NAME},`,
+
+      intro:
+        "I would like to enquire about a photography shoot.",
+
+      name:
+        "Name",
+
+      phone:
+        "Phone",
+
+      email:
+        "Email",
+
+      service:
+        "Service",
+
+      date:
+        "Event Date",
+
+      location:
+        "Location",
+
+      details:
+        "Shoot Details",
+
+      undecided:
+        "Not decided",
+
+      unspecified:
+        "Not specified",
+
+      ending:
+        "Please share availability and further details.",
+    },
+
+  },
+
+};
+
+
+/* =========================================================
+   CONFIG
 ========================================================= */
 
 const navItems = [
-  { id: "home", label: "Home" },
-  { id: "about", label: "About" },
-  { id: "portfolio", label: "Portfolio" },
-  { id: "services", label: "Services" },
-  { id: "contact", label: "Contact" },
+  "home",
+  "about",
+  "portfolio",
+  "services",
+  "contact",
 ];
 
 
-const photos = [
-  {
-    id: 0,
-    title: "Wedding Stories",
-    shortTitle: "Forever Begins Here",
-    category: "Wedding",
-    categoryLabel: "Wedding Photography",
-    src: "/images-optimized/wedding.webp",
-    className: "portfolio-tall",
-  },
-  {
-    id: 1,
-    title: "Portrait Stories",
-    shortTitle: "Faces & Feelings",
-    category: "Portrait",
-    categoryLabel: "Portrait Photography",
-    src: "/images-optimized/portrait.webp",
-    className: "portfolio-wide",
-  },
-  {
-    id: 2,
-    title: "Event Stories",
-    shortTitle: "Moments In Motion",
-    category: "Events",
-    categoryLabel: "Event Photography",
-    src: "/images-optimized/event.webp",
-    className: "portfolio-event",
-  },
+const filterKeys = [
+  "all",
+  "wedding",
+  "portrait",
+  "events",
 ];
 
 
-const filters = [
-  "All",
-  "Wedding",
-  "Portrait",
-  "Events",
-];
-
-
-const services = [
-  {
-    number: "01",
-    title: "Wedding Photography",
-    subtitle: "Timeless celebration",
-    description:
-      "Natural emotions, rituals, details and unforgettable moments captured with a cinematic storytelling approach.",
-    image: "/images-optimized/wedding.webp",
-  },
-  {
-    number: "02",
-    title: "Pre-Wedding",
-    subtitle: "Your story before forever",
-    description:
-      "Creative couple portraits designed around your personality, chemistry, location and unique love story.",
-    image: "/images-optimized/event.webp",
-  },
-  {
-    number: "03",
-    title: "Portrait",
-    subtitle: "Character through light",
-    description:
-      "Expressive individual portraits that focus on personality, mood, natural expressions and beautiful light.",
-    image: "/images-optimized/portrait.webp",
-  },
-  {
-    number: "04",
-    title: "Events",
-    subtitle: "Every moment remembered",
-    description:
-      "Professional coverage for celebrations, corporate functions, birthdays, ceremonies and special occasions.",
-    image: "/images-optimized/event.webp",
-  },
-  {
-    number: "05",
-    title: "Fashion / Commercial",
-    subtitle: "Visuals that stand out",
-    description:
-      "Editorial, fashion and commercial photography focused on strong compositions and premium visual presentation.",
-    image: "/images-optimized/portrait.webp",
-  },
-];
-
-
-const testimonials = [
-  {
-    number: "01",
-    name: "Aarav & Meera",
-    type: "Wedding Photography",
-    location: "Pune",
-    quote:
-      "The photographs feel natural, emotional and timeless. Every small moment from our wedding was captured beautifully without making us feel like we were constantly posing.",
-  },
-  {
-    number: "02",
-    name: "Riya Sharma",
-    type: "Portrait Session",
-    location: "Mumbai",
-    quote:
-      "The entire shoot felt relaxed and effortless. The final portraits looked elegant, cinematic and still completely like me.",
-  },
-  {
-    number: "03",
-    name: "Kunal Events",
-    type: "Event Photography",
-    location: "Nashik",
-    quote:
-      "From the atmosphere to the smallest candid moments, the complete event was documented beautifully. The photographs truly tell the story of the day.",
-  },
-  {
-    number: "04",
-    name: "Anaya Studio",
-    type: "Fashion / Commercial",
-    location: "Pune",
-    quote:
-      "The visual direction was clean, premium and thoughtful. Every frame had purpose and gave our campaign a stronger identity.",
-  },
-];
-
-
-const bookingServices = [
-  "Wedding Photography",
-  "Pre-Wedding",
-  "Portrait",
-  "Event Photography",
-  "Fashion / Commercial",
-  "Other",
+const bookingServiceKeys = [
+  "wedding",
+  "preWedding",
+  "portrait",
+  "event",
+  "commercial",
+  "other",
 ];
 
 
@@ -204,23 +1294,37 @@ const initialFormData = {
 ========================================================= */
 
 function getLocalToday() {
-  const now = new Date();
 
-  const year = now.getFullYear();
+  const now =
+    new Date();
 
-  const month = String(
-    now.getMonth() + 1
-  ).padStart(2, "0");
+  const year =
+    now.getFullYear();
 
-  const day = String(
-    now.getDate()
-  ).padStart(2, "0");
+  const month =
+    String(
+      now.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
+  const day =
+    String(
+      now.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
 
   return `${year}-${month}-${day}`;
 }
 
 
-function formatEventDate(value) {
+function formatEventDate(
+  value
+) {
+
   if (!value) {
     return "";
   }
@@ -238,40 +1342,129 @@ function formatEventDate(value) {
 
 function App() {
 
-  const [isLoading, setIsLoading] =
+  /* =======================================================
+     LANGUAGE
+  ======================================================= */
+
+  const [
+    language,
+    setLanguage,
+  ] =
+    useState(() => {
+
+      try {
+
+        const saved =
+          localStorage.getItem(
+            "sc-language"
+          );
+
+        return saved === "en"
+          ? "en"
+          : "mr";
+
+      } catch {
+
+        return "mr";
+
+      }
+
+    });
+
+
+  const t =
+    translations[
+      language
+    ];
+
+
+  /* =======================================================
+     STATE
+  ======================================================= */
+
+  const [
+    isLoading,
+    setIsLoading,
+  ] =
     useState(true);
 
-  const [loadingProgress, setLoadingProgress] =
+
+  const [
+    loadingProgress,
+    setLoadingProgress,
+  ] =
     useState(0);
 
-  const [mobileMenuOpen, setMobileMenuOpen] =
+
+  const [
+    mobileMenuOpen,
+    setMobileMenuOpen,
+  ] =
     useState(false);
 
-  const [activeSection, setActiveSection] =
+
+  const [
+    activeSection,
+    setActiveSection,
+  ] =
     useState("home");
 
-  const [selectedIndex, setSelectedIndex] =
+
+  const [
+    selectedIndex,
+    setSelectedIndex,
+  ] =
     useState(null);
 
-  const [activeFilter, setActiveFilter] =
-    useState("All");
 
-  const [testimonialIndex, setTestimonialIndex] =
+  const [
+    activeFilter,
+    setActiveFilter,
+  ] =
+    useState("all");
+
+
+  const [
+    testimonialIndex,
+    setTestimonialIndex,
+  ] =
     useState(0);
 
-  const [testimonialPaused, setTestimonialPaused] =
+
+  const [
+    testimonialPaused,
+    setTestimonialPaused,
+  ] =
     useState(false);
 
-  const [formData, setFormData] =
-    useState(initialFormData);
 
-  const [formErrors, setFormErrors] =
+  const [
+    formData,
+    setFormData,
+  ] =
+    useState(
+      initialFormData
+    );
+
+
+  const [
+    formErrors,
+    setFormErrors,
+  ] =
     useState({});
 
-  const [formStatus, setFormStatus] =
+
+  const [
+    formStatus,
+    setFormStatus,
+  ] =
     useState("");
 
-  const [isSubmitting, setIsSubmitting] =
+
+  const [
+    isSubmitting,
+    setIsSubmitting,
+  ] =
     useState(false);
 
 
@@ -279,44 +1472,95 @@ function App() {
      REFS
   ======================================================= */
 
-  const appRef = useRef();
-  const navbarRef = useRef();
+  const appRef =
+    useRef();
 
-  const heroRef = useRef();
-  const heroContentRef = useRef();
-  const threeAreaRef = useRef();
-  const topTextRef = useRef();
-  const titleRef = useRef();
-  const categoriesRef = useRef();
-  const descriptionRef = useRef();
-  const buttonsRef = useRef();
-  const mouseInfoRef = useRef();
+  const navbarRef =
+    useRef();
 
-  const aboutRef = useRef();
-  const aboutVisualRef = useRef();
-  const aboutTextRef = useRef();
-  const statsRef = useRef();
+  const heroRef =
+    useRef();
 
-  const portfolioRef = useRef();
-  const portfolioHeadingRef = useRef();
-  const portfolioGridRef = useRef();
+  const heroContentRef =
+    useRef();
 
-  const servicesRef = useRef();
-  const servicesHeadingRef = useRef();
-  const servicesGridRef = useRef();
+  const threeAreaRef =
+    useRef();
 
-  const testimonialsRef = useRef();
-  const testimonialsHeadingRef = useRef();
-  const testimonialShellRef = useRef();
-  const testimonialCardRef = useRef();
+  const topTextRef =
+    useRef();
 
-  const contactRef = useRef();
-  const contactHeadingRef = useRef();
-  const contactGridRef = useRef();
+  const titleRef =
+    useRef();
 
-  const footerRef = useRef();
+  const categoriesRef =
+    useRef();
 
-  const eventDatePickerRef = useRef();
+  const descriptionRef =
+    useRef();
+
+  const buttonsRef =
+    useRef();
+
+  const mouseInfoRef =
+    useRef();
+
+  const aboutRef =
+    useRef();
+
+  const aboutVisualRef =
+    useRef();
+
+  const aboutTextRef =
+    useRef();
+
+  const statsRef =
+    useRef();
+
+  const portfolioRef =
+    useRef();
+
+  const portfolioHeadingRef =
+    useRef();
+
+  const portfolioGridRef =
+    useRef();
+
+  const servicesRef =
+    useRef();
+
+  const servicesHeadingRef =
+    useRef();
+
+  const servicesGridRef =
+    useRef();
+
+  const testimonialsRef =
+    useRef();
+
+  const testimonialsHeadingRef =
+    useRef();
+
+  const testimonialShellRef =
+    useRef();
+
+  const testimonialCardRef =
+    useRef();
+
+  const contactRef =
+    useRef();
+
+  const contactHeadingRef =
+    useRef();
+
+  const contactGridRef =
+    useRef();
+
+  const footerRef =
+    useRef();
+
+  const eventDatePickerRef =
+    useRef();
 
   const heroScrollProgress =
     useRef(0);
@@ -327,12 +1571,59 @@ function App() {
 
 
   /* =======================================================
+     LANGUAGE SAVE
+  ======================================================= */
+
+  useEffect(() => {
+
+    try {
+
+      localStorage.setItem(
+        "sc-language",
+        language
+      );
+
+    } catch {
+      // ignore
+    }
+
+
+    document.documentElement.lang =
+      language === "mr"
+        ? "mr"
+        : "en";
+
+  }, [
+    language,
+  ]);
+
+
+  const changeLanguage =
+    (newLanguage) => {
+
+      setLanguage(
+        newLanguage
+      );
+
+      setFormErrors({});
+
+      setFormStatus("");
+
+      setMobileMenuOpen(
+        false
+      );
+
+    };
+
+
+  /* =======================================================
      PRELOADER
   ======================================================= */
 
   useEffect(() => {
 
     let current = 0;
+
     let closeTimeout;
 
 
@@ -341,17 +1632,20 @@ function App() {
         () => {
 
           current +=
-            4 +
+            5 +
             Math.floor(
               Math.random() * 7
             );
 
 
-          if (current >= 100) {
+          if (
+            current >= 100
+          ) {
 
-            current = 100;
+            setLoadingProgress(
+              100
+            );
 
-            setLoadingProgress(100);
 
             window.clearInterval(
               interval
@@ -361,12 +1655,18 @@ function App() {
             closeTimeout =
               window.setTimeout(
                 () => {
-                  setIsLoading(false);
+
+                  setIsLoading(
+                    false
+                  );
+
                 },
-                450
+                400
               );
 
+
             return;
+
           }
 
 
@@ -380,8 +1680,15 @@ function App() {
 
 
     return () => {
-      window.clearInterval(interval);
-      window.clearTimeout(closeTimeout);
+
+      window.clearInterval(
+        interval
+      );
+
+      window.clearTimeout(
+        closeTimeout
+      );
+
     };
 
   }, []);
@@ -393,21 +1700,23 @@ function App() {
 
   useEffect(() => {
 
-    const shouldLock =
+    const lock =
       isLoading ||
       mobileMenuOpen ||
       selectedIndex !== null;
 
 
     document.body.style.overflow =
-      shouldLock
+      lock
         ? "hidden"
         : "";
 
 
     return () => {
+
       document.body.style.overflow =
         "";
+
     };
 
   }, [
@@ -418,17 +1727,83 @@ function App() {
 
 
   /* =======================================================
-     FILTER
+     DATA
   ======================================================= */
 
+  const photos = [
+
+    {
+      id: 0,
+
+      key:
+        "wedding",
+
+      categoryKey:
+        "wedding",
+
+      src:
+        "/images-optimized/wedding.webp",
+
+      className:
+        "portfolio-tall",
+    },
+
+
+    {
+      id: 1,
+
+      key:
+        "portrait",
+
+      categoryKey:
+        "portrait",
+
+      src:
+        "/images-optimized/portrait.webp",
+
+      className:
+        "portfolio-wide",
+    },
+
+
+    {
+      id: 2,
+
+      key:
+        "events",
+
+      categoryKey:
+        "events",
+
+      src:
+        "/images-optimized/event.webp",
+
+      className:
+        "portfolio-event",
+    },
+
+  ];
+
+
   const filteredPhotos =
-    activeFilter === "All"
+
+    activeFilter === "all"
+
       ? photos
+
       : photos.filter(
           (photo) =>
-            photo.category ===
+            photo.categoryKey ===
             activeFilter
         );
+
+
+  const services =
+    t.services.items;
+
+
+  const testimonials =
+    t.testimonials.items;
 
 
   const activeTestimonial =
@@ -443,7 +1818,9 @@ function App() {
 
   useLayoutEffect(() => {
 
-    if (isLoading) {
+    if (
+      isLoading
+    ) {
       return;
     }
 
@@ -454,7 +1831,8 @@ function App() {
         const entrance =
           gsap.timeline({
             defaults: {
-              ease: "power3.out",
+              ease:
+                "power3.out",
             },
           });
 
@@ -492,14 +1870,12 @@ function App() {
           titleRef.current,
           {
             opacity: 0,
-            y: 65,
-            scale: 0.96,
+            y: 60,
           },
           {
             opacity: 1,
             y: 0,
-            scale: 1,
-            duration: 1.1,
+            duration: 1,
           },
           "-=0.35"
         );
@@ -509,14 +1885,14 @@ function App() {
           categoriesRef.current,
           {
             opacity: 0,
-            y: 25,
+            y: 20,
           },
           {
             opacity: 1,
             y: 0,
             duration: 0.7,
           },
-          "-=0.55"
+          "-=0.4"
         );
 
 
@@ -531,7 +1907,7 @@ function App() {
             y: 0,
             duration: 0.7,
           },
-          "-=0.45"
+          "-=0.4"
         );
 
 
@@ -539,26 +1915,11 @@ function App() {
           buttonsRef.current,
           {
             opacity: 0,
-            y: 25,
+            y: 20,
           },
           {
             opacity: 1,
             y: 0,
-            duration: 0.7,
-          },
-          "-=0.4"
-        );
-
-
-        entrance.fromTo(
-          mouseInfoRef.current,
-          {
-            opacity: 0,
-            x: 25,
-          },
-          {
-            opacity: 1,
-            x: 0,
             duration: 0.7,
           },
           "-=0.35"
@@ -569,8 +1930,9 @@ function App() {
           (item) => {
 
             ScrollTrigger.create({
+
               trigger:
-                `#${item.id}`,
+                `#${item}`,
 
               start:
                 "top 55%",
@@ -578,17 +1940,18 @@ function App() {
               end:
                 "bottom 45%",
 
-              onEnter: () => {
-                setActiveSection(
-                  item.id
-                );
-              },
+              onEnter:
+                () =>
+                  setActiveSection(
+                    item
+                  ),
 
-              onEnterBack: () => {
-                setActiveSection(
-                  item.id
-                );
-              },
+              onEnterBack:
+                () =>
+                  setActiveSection(
+                    item
+                  ),
+
             });
 
           }
@@ -596,6 +1959,7 @@ function App() {
 
 
         ScrollTrigger.create({
+
           trigger:
             heroRef.current,
 
@@ -607,365 +1971,173 @@ function App() {
 
           scrub: 1,
 
-          onUpdate: (self) => {
-            heroScrollProgress.current =
-              self.progress;
-          },
+          onUpdate:
+            (self) => {
+
+              heroScrollProgress.current =
+                self.progress;
+
+            },
+
         });
+
+
+        /*
+          IMPORTANT:
+          MobileHeroFix.css handles
+          Three.js position on phone.
+        */
+
+        if (
+          window.innerWidth >
+          800
+        ) {
+
+          gsap.to(
+            threeAreaRef.current,
+            {
+              xPercent: 8,
+              scale: 0.94,
+              opacity: 0.72,
+              ease: "none",
+
+              scrollTrigger: {
+                trigger:
+                  heroRef.current,
+                start:
+                  "top top",
+                end:
+                  "bottom top",
+                scrub: 1,
+              },
+            }
+          );
+
+        }
 
 
         gsap.to(
           heroContentRef.current,
           {
             opacity: 0,
-            y: -100,
-            scale: 0.94,
-            ease: "none",
+            y: -90,
 
             scrollTrigger: {
               trigger:
                 heroRef.current,
-
               start:
                 "20% top",
-
               end:
                 "85% top",
-
               scrub: 1,
             },
           }
         );
 
 
-        gsap.to(
-          mouseInfoRef.current,
-          {
-            opacity: 0,
-            x: 50,
-            ease: "none",
+        const reveal =
+          (
+            target,
+            trigger,
+            x = 0,
+            y = 60
+          ) => {
 
-            scrollTrigger: {
-              trigger:
-                heroRef.current,
-
-              start:
-                "top top",
-
-              end:
-                "60% top",
-
-              scrub: 1,
-            },
-          }
-        );
+            if (
+              !target ||
+              !trigger
+            ) {
+              return;
+            }
 
 
-        gsap.to(
-          threeAreaRef.current,
-          {
-            xPercent: 8,
-            scale: 0.94,
-            opacity: 0.72,
-            ease: "none",
+            gsap.fromTo(
+              target,
+              {
+                opacity: 0,
+                x,
+                y,
+              },
+              {
+                opacity: 1,
+                x: 0,
+                y: 0,
+                duration: 1,
+                ease:
+                  "power3.out",
 
-            scrollTrigger: {
-              trigger:
-                heroRef.current,
+                scrollTrigger: {
+                  trigger,
+                  start:
+                    "top 82%",
+                },
+              }
+            );
 
-              start:
-                "top top",
-
-              end:
-                "bottom top",
-
-              scrub: 1,
-            },
-          }
-        );
+          };
 
 
-        gsap.fromTo(
+        reveal(
           aboutVisualRef.current,
-          {
-            opacity: 0,
-            x: -90,
-            scale: 0.9,
-          },
-          {
-            opacity: 1,
-            x: 0,
-            scale: 1,
-            duration: 1.2,
-            ease: "power3.out",
-
-            scrollTrigger: {
-              trigger:
-                aboutRef.current,
-
-              start:
-                "top 78%",
-            },
-          }
+          aboutRef.current,
+          -70,
+          0
         );
 
 
-        gsap.fromTo(
+        reveal(
           aboutTextRef.current,
-          {
-            opacity: 0,
-            x: 90,
-          },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 1.1,
-            ease: "power3.out",
-
-            scrollTrigger: {
-              trigger:
-                aboutRef.current,
-
-              start:
-                "top 75%",
-            },
-          }
+          aboutRef.current,
+          70,
+          0
         );
 
 
-        gsap.fromTo(
-          statsRef.current.children,
-          {
-            opacity: 0,
-            y: 35,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            stagger: 0.16,
-            ease: "power3.out",
-
-            scrollTrigger: {
-              trigger:
-                statsRef.current,
-
-              start:
-                "top 85%",
-            },
-          }
-        );
-
-
-        gsap.fromTo(
+        reveal(
           portfolioHeadingRef.current,
-          {
-            opacity: 0,
-            y: 70,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power3.out",
-
-            scrollTrigger: {
-              trigger:
-                portfolioRef.current,
-
-              start:
-                "top 78%",
-            },
-          }
+          portfolioRef.current
         );
 
 
-        gsap.fromTo(
+        reveal(
           portfolioGridRef.current,
-          {
-            opacity: 0,
-            y: 80,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1.1,
-            ease: "power3.out",
-
-            scrollTrigger: {
-              trigger:
-                portfolioGridRef.current,
-
-              start:
-                "top 88%",
-            },
-          }
+          portfolioGridRef.current
         );
 
 
-        gsap.fromTo(
+        reveal(
           servicesHeadingRef.current,
-          {
-            opacity: 0,
-            y: 70,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power3.out",
-
-            scrollTrigger: {
-              trigger:
-                servicesRef.current,
-
-              start:
-                "top 78%",
-            },
-          }
+          servicesRef.current
         );
 
 
-        gsap.fromTo(
-          servicesGridRef.current.children,
-          {
-            opacity: 0,
-            y: 80,
-            scale: 0.94,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.9,
-            stagger: 0.13,
-            ease: "power3.out",
-
-            scrollTrigger: {
-              trigger:
-                servicesGridRef.current,
-
-              start:
-                "top 85%",
-            },
-          }
-        );
-
-
-        gsap.fromTo(
+        reveal(
           testimonialsHeadingRef.current,
-          {
-            opacity: 0,
-            y: 65,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power3.out",
-
-            scrollTrigger: {
-              trigger:
-                testimonialsRef.current,
-
-              start:
-                "top 78%",
-            },
-          }
+          testimonialsRef.current
         );
 
 
-        gsap.fromTo(
+        reveal(
           testimonialShellRef.current,
-          {
-            opacity: 0,
-            y: 80,
-            scale: 0.96,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 1.15,
-            ease: "power3.out",
-
-            scrollTrigger: {
-              trigger:
-                testimonialShellRef.current,
-
-              start:
-                "top 87%",
-            },
-          }
+          testimonialShellRef.current
         );
 
 
-        gsap.fromTo(
+        reveal(
           contactHeadingRef.current,
-          {
-            opacity: 0,
-            y: 70,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power3.out",
-
-            scrollTrigger: {
-              trigger:
-                contactRef.current,
-
-              start:
-                "top 78%",
-            },
-          }
+          contactRef.current
         );
 
 
-        gsap.fromTo(
-          contactGridRef.current.children,
-          {
-            opacity: 0,
-            y: 70,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            stagger: 0.18,
-            ease: "power3.out",
-
-            scrollTrigger: {
-              trigger:
-                contactGridRef.current,
-
-              start:
-                "top 86%",
-            },
-          }
+        reveal(
+          contactGridRef.current,
+          contactGridRef.current
         );
 
 
-        gsap.fromTo(
+        reveal(
           footerRef.current,
-          {
-            opacity: 0,
-            y: 35,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-
-            scrollTrigger: {
-              trigger:
-                footerRef.current,
-
-              start:
-                "top 95%",
-            },
-          }
+          footerRef.current
         );
 
 
@@ -975,19 +2147,25 @@ function App() {
 
 
     return () => {
+
       context.revert();
+
     };
 
-  }, [isLoading]);
+  }, [
+    isLoading,
+  ]);
 
 
   /* =======================================================
-     PORTFOLIO FILTER ANIMATION
+     FILTER ANIMATION
   ======================================================= */
 
   useEffect(() => {
 
-    if (!portfolioGridRef.current) {
+    if (
+      !portfolioGridRef.current
+    ) {
       return;
     }
 
@@ -1004,26 +2182,27 @@ function App() {
         cards,
         {
           opacity: 0,
-          y: 30,
-          scale: 0.96,
+          y: 25,
         },
         {
           opacity: 1,
           y: 0,
-          scale: 1,
-          duration: 0.55,
-          stagger: 0.08,
-          ease: "power3.out",
-          clearProps: "transform",
+          duration: 0.5,
+          stagger: 0.07,
         }
       );
 
 
     return () => {
+
       animation.kill();
+
     };
 
-  }, [activeFilter]);
+  }, [
+    activeFilter,
+    language,
+  ]);
 
 
   /* =======================================================
@@ -1058,58 +2237,17 @@ function App() {
 
 
     return () => {
+
       window.clearInterval(
         interval
       );
+
     };
 
   }, [
     testimonialPaused,
     isLoading,
-  ]);
-
-
-  useEffect(() => {
-
-    if (
-      !testimonialCardRef.current ||
-      isLoading
-    ) {
-      return;
-    }
-
-
-    const elements =
-      testimonialCardRef.current
-        .querySelectorAll(
-          "[data-testimonial-animate]"
-        );
-
-
-    const animation =
-      gsap.fromTo(
-        elements,
-        {
-          opacity: 0,
-          y: 24,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.65,
-          stagger: 0.07,
-          ease: "power3.out",
-        }
-      );
-
-
-    return () => {
-      animation.kill();
-    };
-
-  }, [
-    testimonialIndex,
-    isLoading,
+    testimonials.length,
   ]);
 
 
@@ -1119,7 +2257,7 @@ function App() {
 
   useEffect(() => {
 
-    const handleKeyboard =
+    const handler =
       (event) => {
 
         if (
@@ -1131,13 +2269,9 @@ function App() {
             false
           );
 
-          if (
-            selectedIndex !== null
-          ) {
-            setSelectedIndex(
-              null
-            );
-          }
+          setSelectedIndex(
+            null
+          );
 
         }
 
@@ -1182,7 +2316,7 @@ function App() {
 
     window.addEventListener(
       "keydown",
-      handleKeyboard
+      handler
     );
 
 
@@ -1190,16 +2324,18 @@ function App() {
 
       window.removeEventListener(
         "keydown",
-        handleKeyboard
+        handler
       );
 
     };
 
-  }, [selectedIndex]);
+  }, [
+    selectedIndex,
+  ]);
 
 
   /* =======================================================
-     CARD TILT
+     TILT
   ======================================================= */
 
   const handlePortfolioMove =
@@ -1208,24 +2344,22 @@ function App() {
       const card =
         event.currentTarget;
 
-      const rectangle =
+      const rect =
         card.getBoundingClientRect();
-
 
       const x =
         (
           event.clientX -
-          rectangle.left
+          rect.left
         ) /
-        rectangle.width;
-
+        rect.width;
 
       const y =
         (
           event.clientY -
-          rectangle.top
+          rect.top
         ) /
-        rectangle.height;
+        rect.height;
 
 
       card.style.setProperty(
@@ -1251,7 +2385,6 @@ function App() {
           "0deg"
         );
 
-
       event.currentTarget.style
         .setProperty(
           "--card-rotate-y",
@@ -1267,24 +2400,22 @@ function App() {
       const card =
         event.currentTarget;
 
-      const rectangle =
+      const rect =
         card.getBoundingClientRect();
-
 
       const x =
         (
           event.clientX -
-          rectangle.left
+          rect.left
         ) /
-        rectangle.width;
-
+        rect.width;
 
       const y =
         (
           event.clientY -
-          rectangle.top
+          rect.top
         ) /
-        rectangle.height;
+        rect.height;
 
 
       card.style.setProperty(
@@ -1310,46 +2441,11 @@ function App() {
           "0deg"
         );
 
-
       event.currentTarget.style
         .setProperty(
           "--service-rotate-y",
           "0deg"
         );
-
-    };
-
-
-  /* =======================================================
-     TESTIMONIAL
-  ======================================================= */
-
-  const previousTestimonial =
-    () => {
-
-      setTestimonialIndex(
-        (current) =>
-          (
-            current -
-            1 +
-            testimonials.length
-          ) %
-          testimonials.length
-      );
-
-    };
-
-
-  const nextTestimonial =
-    () => {
-
-      setTestimonialIndex(
-        (current) =>
-          (
-            current + 1
-          ) %
-          testimonials.length
-      );
 
     };
 
@@ -1395,18 +2491,22 @@ function App() {
       const errors = {};
 
 
-      if (!formData.name.trim()) {
+      if (
+        !formData.name.trim()
+      ) {
 
         errors.name =
-          "Please enter your name.";
+          t.contact.validation.name;
 
       }
 
 
-      if (!formData.email.trim()) {
+      if (
+        !formData.email.trim()
+      ) {
 
         errors.email =
-          "Please enter your email.";
+          t.contact.validation.email;
 
       } else if (
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -1416,15 +2516,17 @@ function App() {
       ) {
 
         errors.email =
-          "Please enter a valid email.";
+          t.contact.validation.emailInvalid;
 
       }
 
 
-      if (!formData.phone.trim()) {
+      if (
+        !formData.phone.trim()
+      ) {
 
         errors.phone =
-          "Please enter your phone number.";
+          t.contact.validation.phone;
 
       } else if (
         !/^[0-9+\-\s()]{8,18}$/
@@ -1434,23 +2536,27 @@ function App() {
       ) {
 
         errors.phone =
-          "Please enter a valid phone number.";
+          t.contact.validation.phoneInvalid;
 
       }
 
 
-      if (!formData.service) {
+      if (
+        !formData.service
+      ) {
 
         errors.service =
-          "Please select a service.";
+          t.contact.validation.service;
 
       }
 
 
-      if (!formData.message.trim()) {
+      if (
+        !formData.message.trim()
+      ) {
 
         errors.message =
-          "Please tell us something about your shoot.";
+          t.contact.validation.message;
 
       }
 
@@ -1460,43 +2566,71 @@ function App() {
     };
 
 
-  /* =======================================================
-     WHATSAPP MESSAGE
-  ======================================================= */
-
   const createWhatsAppMessage =
     () => {
 
+      const w =
+        t.whatsappMessage;
+
+
       const eventDate =
         formData.eventDate
+
           ? formatEventDate(
               formData.eventDate
             )
-          : "Not decided";
+
+          : w.undecided;
 
 
       const location =
         formData.location.trim()
+
           ? formData.location.trim()
-          : "Not specified";
+
+          : w.unspecified;
+
+
+      const service =
+        t.contact
+          .bookingServices[
+            formData.service
+          ] ||
+        formData.service;
 
 
       return [
-        `Hello ${BRAND_NAME},`,
+
+        w.hello,
+
         "",
-        "I would like to enquire about a photography shoot.",
+
+        w.intro,
+
         "",
-        `Name: ${formData.name.trim()}`,
-        `Phone: ${formData.phone.trim()}`,
-        `Email: ${formData.email.trim()}`,
-        `Service: ${formData.service}`,
-        `Event Date: ${eventDate}`,
-        `Location: ${location}`,
+
+        `${w.name}: ${formData.name.trim()}`,
+
+        `${w.phone}: ${formData.phone.trim()}`,
+
+        `${w.email}: ${formData.email.trim()}`,
+
+        `${w.service}: ${service}`,
+
+        `${w.date}: ${eventDate}`,
+
+        `${w.location}: ${location}`,
+
         "",
-        "Shoot Details:",
+
+        `${w.details}:`,
+
         formData.message.trim(),
+
         "",
-        "Please share availability and further details.",
+
+        w.ending,
+
       ].join("\n");
 
     };
@@ -1508,7 +2642,9 @@ function App() {
       event.preventDefault();
 
 
-      if (isSubmitting) {
+      if (
+        isSubmitting
+      ) {
         return;
       }
 
@@ -1537,63 +2673,57 @@ function App() {
 
 
       setFormErrors({});
-      setFormStatus("");
-      setIsSubmitting(true);
+
+      setIsSubmitting(
+        true
+      );
 
 
       const message =
         createWhatsAppMessage();
 
 
-      const whatsappUrl =
+      const url =
         `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
           message
         )}`;
 
 
-      /*
-        Window लगेच open करतो.
-        त्यामुळे browser popup blocker
-        कमी problem देतो.
-      */
-
-      const whatsappWindow =
+      const opened =
         window.open(
-          "",
+          url,
           "_blank",
           "noopener,noreferrer"
         );
 
 
+      if (
+        !opened
+      ) {
+
+        window.location.href =
+          url;
+
+      }
+
+
       window.setTimeout(
         () => {
 
-          if (whatsappWindow) {
-
-            whatsappWindow.location.href =
-              whatsappUrl;
-
-          } else {
-
-            window.location.href =
-              whatsappUrl;
-
-          }
-
-
-          setIsSubmitting(false);
+          setIsSubmitting(
+            false
+          );
 
           setFormStatus(
             "success"
           );
-
 
           setFormData(
             initialFormData
           );
 
         },
-        350
+        450
       );
 
     };
@@ -1605,13 +2735,21 @@ function App() {
 
   const openPhoto =
     (index) => {
-      setSelectedIndex(index);
+
+      setSelectedIndex(
+        index
+      );
+
     };
 
 
   const closePhoto =
     () => {
-      setSelectedIndex(null);
+
+      setSelectedIndex(
+        null
+      );
+
     };
 
 
@@ -1619,23 +2757,15 @@ function App() {
     () => {
 
       setSelectedIndex(
-        (current) => {
-
-          if (
-            current === null
-          ) {
-            return null;
-          }
-
-
-          return (
-            current -
-            1 +
-            photos.length
-          ) %
-          photos.length;
-
-        }
+        (current) =>
+          current === null
+            ? null
+            : (
+                current -
+                1 +
+                photos.length
+              ) %
+              photos.length
       );
 
     };
@@ -1645,29 +2775,15 @@ function App() {
     () => {
 
       setSelectedIndex(
-        (current) => {
-
-          if (
-            current === null
-          ) {
-            return null;
-          }
-
-
-          return (
-            current + 1
-          ) %
-          photos.length;
-
-        }
+        (current) =>
+          current === null
+            ? null
+            : (
+                current + 1
+              ) %
+              photos.length
       );
 
-    };
-
-
-  const closeMobileMenu =
-    () => {
-      setMobileMenuOpen(false);
     };
 
 
@@ -1676,82 +2792,102 @@ function App() {
   ======================================================= */
 
   return (
+
     <>
 
       {/* PRELOADER */}
 
-      {isLoading && (
+      {
+        isLoading && (
 
-        <div
-          className={
-            loadingProgress >= 100
-              ? "site-preloader complete"
-              : "site-preloader"
-          }
-        >
+          <div
+            className={
+              loadingProgress >=
+              100
 
-          <div className="preloader-center">
+                ? "site-preloader complete"
 
-            <div className="preloader-logo">
+                : "site-preloader"
+            }
+          >
 
-              <span>
-                {BRAND_SHORT}
-              </span>
+            <div
+              className="preloader-center"
+            >
 
-              <small>
-                PHOTOFILMS
-              </small>
+              <div
+                className="preloader-logo"
+              >
 
-            </div>
+                <span>
+                  {BRAND_SHORT}
+                </span>
 
+                <small>
+                  PHOTOFILMS
+                </small>
 
-            <p>
-              SHUBHAM CHINGUDE
-            </p>
-
-
-            <div className="preloader-track">
-
-              <span
-                style={{
-                  width:
-                    `${loadingProgress}%`,
-                }}
-              />
-
-            </div>
+              </div>
 
 
-            <div className="preloader-bottom">
+              <p>
+                SHUBHAM CHINGUDE
+              </p>
 
-              <small>
-                LOADING EXPERIENCE
-              </small>
 
-              <strong>
-                {String(
-                  loadingProgress
-                ).padStart(
-                  3,
-                  "0"
-                )}%
-              </strong>
+              <div
+                className="preloader-track"
+              >
+
+                <span
+                  style={{
+                    width:
+                      `${loadingProgress}%`,
+                  }}
+                />
+
+              </div>
+
+
+              <div
+                className="preloader-bottom"
+              >
+
+                <small>
+                  {t.preloader.loading}
+                </small>
+
+                <strong>
+                  {String(
+                    loadingProgress
+                  ).padStart(
+                    3,
+                    "0"
+                  )}%
+                </strong>
+
+              </div>
 
             </div>
 
           </div>
 
-        </div>
-
-      )}
+        )
+      }
 
 
       <main
-        className="website"
         ref={appRef}
+        className={
+          `website ${
+            language === "mr"
+              ? "language-marathi"
+              : "language-english"
+          }`
+        }
       >
 
-        {/* NAVBAR */}
+        {/* HEADER */}
 
         <header
           className="navbar"
@@ -1759,10 +2895,12 @@ function App() {
         >
 
           <a
-            className="logo brand-logo"
             href="#home"
-            onClick={
-              closeMobileMenu
+            className="logo brand-logo"
+            onClick={() =>
+              setMobileMenuOpen(
+                false
+              )
             }
           >
 
@@ -1771,6 +2909,7 @@ function App() {
             </span>
 
             <div>
+
               <strong>
                 SHUBHAM CHINGUDE
               </strong>
@@ -1778,6 +2917,7 @@ function App() {
               <small>
                 PHOTOFILMS
               </small>
+
             </div>
 
           </a>
@@ -1785,54 +2925,103 @@ function App() {
 
           <nav>
 
-            {navItems.map(
-              (item) => (
+            {
+              navItems.map(
+                (item) => (
 
-                <a
-                  key={item.id}
-                  href={`#${item.id}`}
-                  className={
-                    activeSection ===
-                    item.id
-                      ? "active"
-                      : ""
-                  }
-                >
-                  {item.label}
-                </a>
+                  <a
+                    key={item}
+                    href={`#${item}`}
+                    className={
+                      activeSection ===
+                      item
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    {t.nav[item]}
+                  </a>
 
+                )
               )
-            )}
+            }
 
           </nav>
 
 
-          <button
-            type="button"
-            className={
-              mobileMenuOpen
-                ? "menu-toggle open"
-                : "menu-toggle"
-            }
-            onClick={() => {
-
-              setMobileMenuOpen(
-                (current) =>
-                  !current
-              );
-
-            }}
-            aria-label="Open navigation"
-            aria-expanded={
-              mobileMenuOpen
-            }
+          <div
+            className="header-actions"
           >
 
-            <span />
-            <span />
-            <span />
+            <div
+              className="language-switch"
+              aria-label="Language"
+            >
 
-          </button>
+              <button
+                type="button"
+                className={
+                  language === "mr"
+                    ? "active"
+                    : ""
+                }
+                onClick={() =>
+                  changeLanguage(
+                    "mr"
+                  )
+                }
+              >
+                मराठी
+              </button>
+
+
+              <span>
+                /
+              </span>
+
+
+              <button
+                type="button"
+                className={
+                  language === "en"
+                    ? "active"
+                    : ""
+                }
+                onClick={() =>
+                  changeLanguage(
+                    "en"
+                  )
+                }
+              >
+                EN
+              </button>
+
+            </div>
+
+
+            <button
+              type="button"
+              className={
+                mobileMenuOpen
+                  ? "menu-toggle open"
+                  : "menu-toggle"
+              }
+              onClick={() =>
+                setMobileMenuOpen(
+                  (current) =>
+                    !current
+                )
+              }
+              aria-label="Menu"
+            >
+
+              <span />
+              <span />
+              <span />
+
+            </button>
+
+          </div>
 
         </header>
 
@@ -1847,61 +3036,71 @@ function App() {
           }
         >
 
-          <div className="mobile-menu-bg-word">
+          <div
+            className="mobile-menu-bg-word"
+          >
             SC
           </div>
 
 
-          <div className="mobile-menu-inner">
+          <div
+            className="mobile-menu-inner"
+          >
 
             <p>
-              NAVIGATION
+              MENU
             </p>
 
 
             <nav>
 
-              {navItems.map(
-                (
-                  item,
-                  index
-                ) => (
+              {
+                navItems.map(
+                  (
+                    item,
+                    index
+                  ) => (
 
-                  <a
-                    key={item.id}
-                    href={`#${item.id}`}
-                    className={
-                      activeSection ===
-                      item.id
-                        ? "active"
-                        : ""
-                    }
-                    onClick={
-                      closeMobileMenu
-                    }
-                  >
+                    <a
+                      key={item}
+                      href={`#${item}`}
+                      className={
+                        activeSection ===
+                        item
+                          ? "active"
+                          : ""
+                      }
+                      onClick={() =>
+                        setMobileMenuOpen(
+                          false
+                        )
+                      }
+                    >
 
-                    <small>
-                      0{index + 1}
-                    </small>
+                      <small>
+                        0{index + 1}
+                      </small>
 
-                    <span>
-                      {item.label}
-                    </span>
+                      <span>
+                        {t.nav[item]}
+                      </span>
 
-                    <b>
-                      ↗
-                    </b>
+                      <b>
+                        ↗
+                      </b>
 
-                  </a>
+                    </a>
 
+                  )
                 )
-              )}
+              }
 
             </nav>
 
 
-            <div className="mobile-menu-footer">
+            <div
+              className="mobile-menu-footer"
+            >
 
               <span>
                 SHUBHAM CHINGUDE
@@ -1946,7 +3145,9 @@ function App() {
               ]}
             >
 
-              <Suspense fallback={null}>
+              <Suspense
+                fallback={null}
+              >
 
                 <HeroScene
                   onSelectPhoto={
@@ -1964,7 +3165,9 @@ function App() {
           </div>
 
 
-          <div className="dark-overlay" />
+          <div
+            className="dark-overlay"
+          />
 
 
           <div
@@ -1980,14 +3183,16 @@ function App() {
             </p>
 
 
-            <h1 ref={titleRef}>
+            <h1
+              ref={titleRef}
+            >
 
-              Capturing
+              {t.hero.line1}
 
               <br />
 
               <span>
-                Timeless Stories
+                {t.hero.line2}
               </span>
 
             </h1>
@@ -1998,23 +3203,35 @@ function App() {
               ref={categoriesRef}
             >
 
-              WEDDING
+              {
+                t.hero.categories.map(
+                  (
+                    category,
+                    index
+                  ) => (
 
-              <b>•</b>
+                    <span
+                      key={category}
+                    >
 
-              PORTRAIT
+                      {category}
 
-              <b>•</b>
+                      {
+                        index <
+                          t.hero.categories
+                            .length -
+                            1 && (
+                          <b>
+                            •
+                          </b>
+                        )
+                      }
 
-              EVENTS
+                    </span>
 
-              <b>•</b>
-
-              NATURE
-
-              <b>•</b>
-
-              FASHION
+                  )
+                )
+              }
 
             </p>
 
@@ -2024,13 +3241,11 @@ function App() {
               ref={descriptionRef}
             >
 
-              Every photograph tells a story.
+              {t.hero.description1}
 
               <br />
 
-              Capturing emotions,
-              moments and memories
-              that deserve to live forever.
+              {t.hero.description2}
 
             </p>
 
@@ -2042,8 +3257,7 @@ function App() {
 
               <button
                 className="portfolio-button"
-                onClick={() => {
-
+                onClick={() =>
                   document
                     .getElementById(
                       "portfolio"
@@ -2051,19 +3265,17 @@ function App() {
                     ?.scrollIntoView({
                       behavior:
                         "smooth",
-                    });
-
-                }}
+                    })
+                }
               >
-                Explore Portfolio →
+                {t.hero.portfolioButton}
               </button>
 
 
               <button
                 className="showreel"
               >
-                ▶ &nbsp;
-                Watch Showreel
+                {t.hero.showreel}
               </button>
 
             </div>
@@ -2077,22 +3289,24 @@ function App() {
           >
 
             <span>
-              INTERACTIVE GALLERY
+              {t.hero.interactive}
             </span>
 
             <strong>
-              HOVER • CLICK • SCROLL
+              {t.hero.interaction}
             </strong>
 
           </div>
 
 
-          <div className="hero-scroll">
+          <div
+            className="hero-scroll"
+          >
 
             <span />
 
             <small>
-              SCROLL TO DISCOVER
+              {t.hero.scroll}
             </small>
 
           </div>
@@ -2108,7 +3322,9 @@ function App() {
           ref={aboutRef}
         >
 
-          <div className="about-noise" />
+          <div
+            className="about-noise"
+          />
 
 
           <div
@@ -2116,29 +3332,35 @@ function App() {
             ref={aboutVisualRef}
           >
 
-            <div className="about-gold-frame">
+            <div
+              className="about-gold-frame"
+            >
 
               <img
                 src="/images-optimized/portrait.webp"
-                alt="Photography visual"
+                alt="Photographer"
               />
 
             </div>
 
 
-            <div className="about-photo-number">
+            <div
+              className="about-photo-number"
+            >
               01
             </div>
 
 
-            <div className="about-photo-label">
+            <div
+              className="about-photo-label"
+            >
 
               <span>
-                PHOTOGRAPHER
+                {t.about.photographer}
               </span>
 
               <strong>
-                STORIES THROUGH LIGHT
+                {t.about.label}
               </strong>
 
             </div>
@@ -2151,58 +3373,56 @@ function App() {
             ref={aboutTextRef}
           >
 
-            <p className="section-eyebrow">
-
+            <p
+              className="section-eyebrow"
+            >
               <span />
-
-              ABOUT THE PHOTOGRAPHER
-
+              {t.about.eyebrow}
             </p>
 
 
             <h2>
 
-              Capturing Emotion,
+              {t.about.heading1}
 
               <br />
 
               <em>
-                Not Just Images.
+                {t.about.heading2}
               </em>
 
             </h2>
 
 
-            <p className="about-lead">
-              Photography is more than
-              pressing a shutter.
+            <p
+              className="about-lead"
+            >
+              {t.about.lead}
             </p>
 
 
-            <p className="about-copy">
+            <p
+              className="about-copy"
+            >
 
-              It is about noticing the
-              smallest moments — a glance,
-              a smile, a movement and an
-              emotion that may exist only
-              for a second.
+              {t.about.copy1}
 
               <br />
               <br />
 
-              My goal is to transform those
-              moments into photographs that
-              still feel alive years later.
+              {t.about.copy2}
 
             </p>
 
 
-            <div className="about-signature">
+            <div
+              className="about-signature"
+            >
 
               SC
 
               <span>
-                Photographer
+                {t.about.photographer}
               </span>
 
             </div>
@@ -2213,46 +3433,46 @@ function App() {
               ref={statsRef}
             >
 
-              <div className="stat">
+              <div
+                className="stat"
+              >
 
                 <strong>
                   5+
                 </strong>
 
                 <span>
-                  YEARS
-                  <br />
-                  EXPERIENCE
+                  {t.about.experience}
                 </span>
 
               </div>
 
 
-              <div className="stat">
+              <div
+                className="stat"
+              >
 
                 <strong>
                   200+
                 </strong>
 
                 <span>
-                  PHOTO
-                  <br />
-                  SHOOTS
+                  {t.about.shoots}
                 </span>
 
               </div>
 
 
-              <div className="stat">
+              <div
+                className="stat"
+              >
 
                 <strong>
                   100+
                 </strong>
 
                 <span>
-                  HAPPY
-                  <br />
-                  CLIENTS
+                  {t.about.clients}
                 </span>
 
               </div>
@@ -2272,8 +3492,10 @@ function App() {
           ref={portfolioRef}
         >
 
-          <div className="portfolio-background-text">
-            STORIES
+          <div
+            className="portfolio-background-text"
+          >
+            PHOTOS
           </div>
 
 
@@ -2284,20 +3506,22 @@ function App() {
 
             <div>
 
-              <p className="section-eyebrow">
+              <p
+                className="section-eyebrow"
+              >
                 <span />
-                SELECTED WORK
+                {t.portfolio.eyebrow}
               </p>
 
 
               <h2>
 
-                Stories Through
+                {t.portfolio.heading1}
 
                 <br />
 
                 <em>
-                  My Lens.
+                  {t.portfolio.heading2}
                 </em>
 
               </h2>
@@ -2305,135 +3529,168 @@ function App() {
             </div>
 
 
-            <p className="portfolio-intro">
-
-              A collection of moments,
-              emotions and stories captured
-              across weddings, portraits
-              and special events.
-
+            <p
+              className="portfolio-intro"
+            >
+              {t.portfolio.intro}
             </p>
 
           </div>
 
 
-          <div className="portfolio-filters">
+          <div
+            className="portfolio-filters"
+          >
 
-            {filters.map(
-              (filter) => (
+            {
+              filterKeys.map(
+                (filter) => (
 
-                <button
-                  key={filter}
-                  className={
-                    activeFilter ===
-                    filter
-                      ? "filter-button active"
-                      : "filter-button"
-                  }
-                  onClick={() => {
-                    setActiveFilter(
+                  <button
+                    key={filter}
+                    className={
+                      activeFilter ===
                       filter
-                    );
-                  }}
-                >
-                  {filter}
-                </button>
+                        ? "filter-button active"
+                        : "filter-button"
+                    }
+                    onClick={() =>
+                      setActiveFilter(
+                        filter
+                      )
+                    }
+                  >
+                    {
+                      t.portfolio
+                        .filters[
+                          filter
+                        ]
+                    }
+                  </button>
 
+                )
               )
-            )}
+            }
 
           </div>
 
 
           <div
             className={
-              activeFilter === "All"
+              activeFilter ===
+              "all"
+
                 ? "portfolio-grid"
+
                 : "portfolio-grid filtered"
             }
             ref={portfolioGridRef}
           >
 
-            {filteredPhotos.map(
-              (photo) => (
+            {
+              filteredPhotos.map(
+                (photo) => {
 
-                <button
-                  type="button"
-                  key={photo.id}
-                  className={
-                    `portfolio-card ${photo.className}`
-                  }
-                  onMouseMove={
-                    handlePortfolioMove
-                  }
-                  onMouseLeave={
-                    resetPortfolioTilt
-                  }
-                  onClick={() => {
-                    openPhoto(
-                      photo.id
-                    );
-                  }}
-                >
-
-                  <div className="portfolio-card-inner">
-
-                    <img
-                      src={photo.src}
-                      alt={photo.title}
-                    />
+                  const content =
+                    t.photos[
+                      photo.key
+                    ];
 
 
-                    <div className="portfolio-card-shade" />
+                  return (
+
+                    <button
+                      type="button"
+                      key={photo.id}
+                      className={
+                        `portfolio-card ${photo.className}`
+                      }
+                      onMouseMove={
+                        handlePortfolioMove
+                      }
+                      onMouseLeave={
+                        resetPortfolioTilt
+                      }
+                      onClick={() =>
+                        openPhoto(
+                          photo.id
+                        )
+                      }
+                    >
+
+                      <div
+                        className="portfolio-card-inner"
+                      >
+
+                        <img
+                          src={photo.src}
+                          alt={
+                            content.title
+                          }
+                        />
 
 
-                    <div className="portfolio-index">
-                      0{photo.id + 1}
-                    </div>
+                        <div
+                          className="portfolio-card-shade"
+                        />
 
 
-                    <div className="portfolio-card-content">
-
-                      <span>
-                        {photo.categoryLabel}
-                      </span>
-
-                      <h3>
-                        {photo.shortTitle}
-                      </h3>
-
-                      <p>
-                        View Story
-                        <b>→</b>
-                      </p>
-
-                    </div>
+                        <div
+                          className="portfolio-index"
+                        >
+                          0{photo.id + 1}
+                        </div>
 
 
-                    <div className="portfolio-corner portfolio-corner-one" />
+                        <div
+                          className="portfolio-card-content"
+                        >
 
-                    <div className="portfolio-corner portfolio-corner-two" />
+                          <span>
+                            {content.category}
+                          </span>
 
-                  </div>
+                          <h3>
+                            {content.shortTitle}
+                          </h3>
 
-                </button>
+                          <p>
 
+                            {t.portfolio.viewStory}
+
+                            <b>
+                              →
+                            </b>
+
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                    </button>
+
+                  );
+
+                }
               )
-            )}
+            }
 
           </div>
 
 
-          <div className="portfolio-footer">
+          <div
+            className="portfolio-footer"
+          >
 
             <span>
-              03 SELECTED STORIES
+              03 {t.portfolio.selected}
             </span>
 
             <div />
 
             <p>
-              MORE STORIES COMING SOON
+              {t.portfolio.coming}
             </p>
 
           </div>
@@ -2449,7 +3706,9 @@ function App() {
           ref={servicesRef}
         >
 
-          <div className="services-bg-word">
+          <div
+            className="services-bg-word"
+          >
             SERVICES
           </div>
 
@@ -2461,20 +3720,22 @@ function App() {
 
             <div>
 
-              <p className="section-eyebrow">
+              <p
+                className="section-eyebrow"
+              >
                 <span />
-                WHAT I CAPTURE
+                {t.services.eyebrow}
               </p>
 
 
               <h2>
 
-                Photography Crafted
+                {t.services.heading1}
 
                 <br />
 
                 <em>
-                  Around Your Story.
+                  {t.services.heading2}
                 </em>
 
               </h2>
@@ -2482,13 +3743,10 @@ function App() {
             </div>
 
 
-            <p className="services-heading-copy">
-
-              Every assignment is approached
-              differently — with attention to
-              emotion, personality, atmosphere
-              and the story behind the moment.
-
+            <p
+              className="services-heading-copy"
+            >
+              {t.services.intro}
             </p>
 
           </div>
@@ -2499,102 +3757,120 @@ function App() {
             ref={servicesGridRef}
           >
 
-            {services.map(
-              (
-                service,
-                index
-              ) => (
+            {
+              services.map(
+                (
+                  service,
+                  index
+                ) => (
 
-                <article
-                  className={
-                    index === 0
-                      ? "service-card service-card-featured"
-                      : "service-card"
-                  }
-                  key={service.number}
-                  onMouseMove={
-                    handleServiceMove
-                  }
-                  onMouseLeave={
-                    resetServiceTilt
-                  }
-                >
+                  <article
+                    key={
+                      service.number
+                    }
+                    className={
+                      index === 0
 
-                  <div className="service-card-inner">
+                        ? "service-card service-card-featured"
 
-                    <img
-                      src={service.image}
-                      alt={service.title}
-                    />
+                        : "service-card"
+                    }
+                    onMouseMove={
+                      handleServiceMove
+                    }
+                    onMouseLeave={
+                      resetServiceTilt
+                    }
+                  >
 
+                    <div
+                      className="service-card-inner"
+                    >
 
-                    <div className="service-shade" />
-
-
-                    <span className="service-number">
-                      {service.number}
-                    </span>
-
-
-                    <div className="service-content">
-
-                      <p className="service-subtitle">
-                        {service.subtitle}
-                      </p>
-
-                      <h3>
-                        {service.title}
-                      </h3>
-
-                      <p className="service-description">
-                        {service.description}
-                      </p>
+                      <img
+                        src={
+                          service.image
+                        }
+                        alt={
+                          service.title
+                        }
+                      />
 
 
-                      <div className="service-link">
+                      <div
+                        className="service-shade"
+                      />
 
-                        <span>
-                          EXPLORE SERVICE
-                        </span>
 
-                        <b>
-                          →
-                        </b>
+                      <span
+                        className="service-number"
+                      >
+                        {service.number}
+                      </span>
+
+
+                      <div
+                        className="service-content"
+                      >
+
+                        <p
+                          className="service-subtitle"
+                        >
+                          {service.subtitle}
+                        </p>
+
+                        <h3>
+                          {service.title}
+                        </h3>
+
+                        <p
+                          className="service-description"
+                        >
+                          {service.description}
+                        </p>
+
+                        <div
+                          className="service-link"
+                        >
+
+                          <span>
+                            {t.services.explore}
+                          </span>
+
+                          <b>
+                            →
+                          </b>
+
+                        </div>
 
                       </div>
 
                     </div>
 
+                  </article>
 
-                    <div className="service-line" />
-
-                    <div className="service-gold-corner service-gold-corner-one" />
-
-                    <div className="service-gold-corner service-gold-corner-two" />
-
-                  </div>
-
-                </article>
-
+                )
               )
-            )}
+            }
 
           </div>
 
 
-          <div className="services-bottom">
+          <div
+            className="services-bottom"
+          >
 
-            <div className="services-bottom-line" />
+            <div
+              className="services-bottom-line"
+            />
 
             <p>
-              <span>“</span>
-              The best photograph is the one
-              that makes you feel the moment
-              again.
-              <span>”</span>
+              “ {t.services.quote} ”
             </p>
 
-            <div className="services-bottom-line" />
+            <div
+              className="services-bottom-line"
+            />
 
           </div>
 
@@ -2608,7 +3884,9 @@ function App() {
           ref={testimonialsRef}
         >
 
-          <div className="testimonials-bg-word">
+          <div
+            className="testimonials-bg-word"
+          >
             LOVE
           </div>
 
@@ -2620,20 +3898,22 @@ function App() {
 
             <div>
 
-              <p className="section-eyebrow">
+              <p
+                className="section-eyebrow"
+              >
                 <span />
-                CLIENT STORIES
+                {t.testimonials.eyebrow}
               </p>
 
 
               <h2>
 
-                What They Felt,
+                {t.testimonials.heading1}
 
                 <br />
 
                 <em>
-                  In Their Words.
+                  {t.testimonials.heading2}
                 </em>
 
               </h2>
@@ -2641,12 +3921,10 @@ function App() {
             </div>
 
 
-            <p className="testimonials-intro">
-
-              The photographs matter,
-              but the experience of creating
-              them matters just as much.
-
+            <p
+              className="testimonials-intro"
+            >
+              {t.testimonials.intro}
             </p>
 
           </div>
@@ -2655,26 +3933,32 @@ function App() {
           <div
             className="testimonial-shell"
             ref={testimonialShellRef}
-            onMouseEnter={() => {
+            onMouseEnter={() =>
               setTestimonialPaused(
                 true
-              );
-            }}
-            onMouseLeave={() => {
+              )
+            }
+            onMouseLeave={() =>
               setTestimonialPaused(
                 false
-              );
-            }}
+              )
+            }
           >
 
-            <div className="testimonial-side">
+            <div
+              className="testimonial-side"
+            >
 
-              <span className="testimonial-big-number">
+              <span
+                className="testimonial-big-number"
+              >
                 {activeTestimonial.number}
               </span>
 
-              <div className="testimonial-vertical-text">
-                CLIENT EXPERIENCE
+              <div
+                className="testimonial-vertical-text"
+              >
+                {t.testimonials.clientExperience}
               </div>
 
             </div>
@@ -2687,26 +3971,28 @@ function App() {
 
               <span
                 className="testimonial-quote-mark"
-                data-testimonial-animate
               >
                 “
               </span>
 
 
-              <blockquote data-testimonial-animate>
+              <blockquote>
                 {activeTestimonial.quote}
               </blockquote>
 
 
               <div
                 className="testimonial-client"
-                data-testimonial-animate
               >
 
-                <div className="testimonial-avatar">
-                  {activeTestimonial
-                    .name
-                    .charAt(0)}
+                <div
+                  className="testimonial-avatar"
+                >
+                  {
+                    activeTestimonial
+                      .name
+                      .charAt(0)
+                  }
                 </div>
 
 
@@ -2717,9 +4003,13 @@ function App() {
                   </strong>
 
                   <span>
+
                     {activeTestimonial.type}
+
                     {" • "}
+
                     {activeTestimonial.location}
+
                   </span>
 
                 </div>
@@ -2729,23 +4019,35 @@ function App() {
             </div>
 
 
-            <div className="testimonial-controls">
+            <div
+              className="testimonial-controls"
+            >
 
               <button
-                onClick={
-                  previousTestimonial
+                onClick={() =>
+                  setTestimonialIndex(
+                    (current) =>
+                      (
+                        current -
+                        1 +
+                        testimonials.length
+                      ) %
+                      testimonials.length
+                  )
                 }
-                aria-label="Previous testimonial"
               >
                 ←
               </button>
 
 
-              <div className="testimonial-counter">
+              <div
+                className="testimonial-counter"
+              >
 
                 <strong>
                   {String(
-                    testimonialIndex + 1
+                    testimonialIndex +
+                    1
                   ).padStart(
                     2,
                     "0"
@@ -2769,69 +4071,19 @@ function App() {
 
 
               <button
-                onClick={
-                  nextTestimonial
+                onClick={() =>
+                  setTestimonialIndex(
+                    (current) =>
+                      (
+                        current +
+                        1
+                      ) %
+                      testimonials.length
+                  )
                 }
-                aria-label="Next testimonial"
               >
                 →
               </button>
-
-            </div>
-
-
-            <div className="testimonial-progress">
-
-              {testimonials.map(
-                (
-                  testimonial,
-                  index
-                ) => (
-
-                  <button
-                    key={
-                      testimonial.number
-                    }
-                    className={
-                      index ===
-                      testimonialIndex
-                        ? "testimonial-progress-item active"
-                        : "testimonial-progress-item"
-                    }
-                    onClick={() => {
-                      setTestimonialIndex(
-                        index
-                      );
-                    }}
-                  >
-
-                    <span className="testimonial-progress-track">
-
-                      {index ===
-                        testimonialIndex && (
-
-                        <span
-                          className="testimonial-progress-fill"
-                          style={{
-                            animationPlayState:
-                              testimonialPaused
-                                ? "paused"
-                                : "running",
-                          }}
-                        />
-
-                      )}
-
-                    </span>
-
-                    <small>
-                      0{index + 1}
-                    </small>
-
-                  </button>
-
-                )
-              )}
 
             </div>
 
@@ -2848,7 +4100,9 @@ function App() {
           ref={contactRef}
         >
 
-          <div className="contact-bg-word">
+          <div
+            className="contact-bg-word"
+          >
             CONNECT
           </div>
 
@@ -2858,34 +4112,29 @@ function App() {
             ref={contactHeadingRef}
           >
 
-            <p className="section-eyebrow">
-
+            <p
+              className="section-eyebrow"
+            >
               <span />
-
-              START A CONVERSATION
-
+              {t.contact.eyebrow}
             </p>
 
 
             <h2>
 
-              Let's Create Something
+              {t.contact.heading1}
 
               <br />
 
               <em>
-                Timeless Together.
+                {t.contact.heading2}
               </em>
 
             </h2>
 
 
             <p>
-
-              Tell me about your story,
-              your event and the moments
-              you want to remember.
-
+              {t.contact.intro}
             </p>
 
           </div>
@@ -2896,48 +4145,51 @@ function App() {
             ref={contactGridRef}
           >
 
-            <aside className="contact-info-panel">
+            <aside
+              className="contact-info-panel"
+            >
 
               <div>
 
-                <p className="contact-small-title">
-                  GET IN TOUCH
+                <p
+                  className="contact-small-title"
+                >
+                  {t.contact.getInTouch}
                 </p>
 
 
                 <h3>
-                  Have a story
+
+                  {t.contact.question1}
+
                   <br />
-                  worth capturing?
+
+                  {t.contact.question2}
+
                 </h3>
 
 
-                <p className="contact-info-copy">
-
-                  Whether you're planning a
-                  wedding, portrait session,
-                  event or commercial shoot,
-                  send the details and let's
-                  create something meaningful.
-
+                <p
+                  className="contact-info-copy"
+                >
+                  {t.contact.copy}
                 </p>
 
               </div>
 
 
-              <div className="contact-detail-list">
+              <div
+                className="contact-detail-list"
+              >
 
                 <a
                   href={
-                    `tel:${CONTACT_PHONE.replace(
-                      /\s/g,
-                      ""
-                    )}`
+                    `tel:${CONTACT_PHONE.replace(/\s/g, "")}`
                   }
                 >
 
                   <span>
-                    PHONE
+                    {t.contact.phone}
                   </span>
 
                   <strong>
@@ -2954,7 +4206,7 @@ function App() {
                 >
 
                   <span>
-                    EMAIL
+                    {t.contact.email}
                   </span>
 
                   <strong>
@@ -2967,11 +4219,11 @@ function App() {
                 <div>
 
                   <span>
-                    LOCATION
+                    {t.contact.location}
                   </span>
 
                   <strong>
-                    Maharashtra, India
+                    {t.contact.locationValue}
                   </strong>
 
                 </div>
@@ -2980,11 +4232,11 @@ function App() {
                 <div>
 
                   <span>
-                    AVAILABILITY
+                    {t.contact.availability}
                   </span>
 
                   <strong>
-                    Available for Travel
+                    {t.contact.travel}
                   </strong>
 
                 </div>
@@ -2995,50 +4247,47 @@ function App() {
               <a
                 className="whatsapp-button"
                 href={
-                  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-                    `Hello ${BRAND_NAME}, I would like to enquire about a photography shoot.`
-                  )}`
+                  `https://wa.me/${WHATSAPP_NUMBER}`
                 }
                 target="_blank"
                 rel="noreferrer"
               >
 
-                <span className="whatsapp-icon">
+                <span
+                  className="whatsapp-icon"
+                >
                   ↗
                 </span>
-
 
                 <div>
 
                   <small>
-                    QUICK ENQUIRY
+                    {t.contact.quick}
                   </small>
 
                   <strong>
-                    Chat on WhatsApp
+                    {t.contact.whatsapp}
                   </strong>
 
                 </div>
 
               </a>
 
-
-              <p className="contact-demo-note">
-                Replace demo phone, WhatsApp
-                and email before publishing.
-              </p>
-
             </aside>
 
 
-            {/* BOOKING FORM */}
+            {/* FORM */}
 
-            <div className="booking-panel">
+            <div
+              className="booking-panel"
+            >
 
-              <div className="booking-panel-head">
+              <div
+                className="booking-panel-head"
+              >
 
                 <span>
-                  BOOK YOUR SHOOT
+                  {t.contact.booking}
                 </span>
 
                 <strong>
@@ -3056,9 +4305,9 @@ function App() {
                 noValidate
               >
 
-                {/* NAME + PHONE */}
-
-                <div className="booking-row">
+                <div
+                  className="booking-row"
+                >
 
                   <label
                     className={
@@ -3069,7 +4318,7 @@ function App() {
                   >
 
                     <span>
-                      YOUR NAME *
+                      {t.contact.name}
                     </span>
 
                     <input
@@ -3081,17 +4330,19 @@ function App() {
                       onChange={
                         handleFormChange
                       }
-                      placeholder="Enter your name"
-                      disabled={
-                        isSubmitting
+                      placeholder={
+                        t.contact
+                          .namePlaceholder
                       }
                     />
 
-                    {formErrors.name && (
-                      <small>
-                        {formErrors.name}
-                      </small>
-                    )}
+                    {
+                      formErrors.name && (
+                        <small>
+                          {formErrors.name}
+                        </small>
+                      )
+                    }
 
                   </label>
 
@@ -3105,7 +4356,7 @@ function App() {
                   >
 
                     <span>
-                      PHONE *
+                      {t.contact.phoneLabel}
                     </span>
 
                     <input
@@ -3118,25 +4369,24 @@ function App() {
                         handleFormChange
                       }
                       placeholder="+91"
-                      disabled={
-                        isSubmitting
-                      }
                     />
 
-                    {formErrors.phone && (
-                      <small>
-                        {formErrors.phone}
-                      </small>
-                    )}
+                    {
+                      formErrors.phone && (
+                        <small>
+                          {formErrors.phone}
+                        </small>
+                      )
+                    }
 
                   </label>
 
                 </div>
 
 
-                {/* EMAIL + SERVICE */}
-
-                <div className="booking-row">
+                <div
+                  className="booking-row"
+                >
 
                   <label
                     className={
@@ -3147,7 +4397,7 @@ function App() {
                   >
 
                     <span>
-                      EMAIL *
+                      {t.contact.emailLabel}
                     </span>
 
                     <input
@@ -3159,17 +4409,19 @@ function App() {
                       onChange={
                         handleFormChange
                       }
-                      placeholder="you@example.com"
-                      disabled={
-                        isSubmitting
+                      placeholder={
+                        t.contact
+                          .emailPlaceholder
                       }
                     />
 
-                    {formErrors.email && (
-                      <small>
-                        {formErrors.email}
-                      </small>
-                    )}
+                    {
+                      formErrors.email && (
+                        <small>
+                          {formErrors.email}
+                        </small>
+                      )
+                    }
 
                   </label>
 
@@ -3183,7 +4435,7 @@ function App() {
                   >
 
                     <span>
-                      SERVICE *
+                      {t.contact.service}
                     </span>
 
                     <select
@@ -3194,54 +4446,62 @@ function App() {
                       onChange={
                         handleFormChange
                       }
-                      disabled={
-                        isSubmitting
-                      }
                     >
 
                       <option value="">
-                        Select service
+                        {t.contact.selectService}
                       </option>
 
-                      {bookingServices.map(
-                        (service) => (
+                      {
+                        bookingServiceKeys.map(
+                          (service) => (
 
-                          <option
-                            value={service}
-                            key={service}
-                          >
-                            {service}
-                          </option>
+                            <option
+                              key={service}
+                              value={service}
+                            >
+                              {
+                                t.contact
+                                  .bookingServices[
+                                    service
+                                  ]
+                              }
+                            </option>
 
+                          )
                         )
-                      )}
+                      }
 
                     </select>
 
-
-                    {formErrors.service && (
-                      <small>
-                        {formErrors.service}
-                      </small>
-                    )}
+                    {
+                      formErrors.service && (
+                        <small>
+                          {formErrors.service}
+                        </small>
+                      )
+                    }
 
                   </label>
 
                 </div>
 
 
-                {/* DATE + LOCATION */}
+                <div
+                  className="booking-row"
+                >
 
-                <div className="booking-row">
-
-                  <label className="booking-field">
+                  <label
+                    className="booking-field"
+                  >
 
                     <span>
-                      EVENT DATE
+                      {t.contact.eventDate}
                     </span>
 
-
-                    <div className="custom-date-field">
+                    <div
+                      className="custom-date-field"
+                    >
 
                       <input
                         type="text"
@@ -3252,33 +4512,21 @@ function App() {
                         }
                         placeholder="DD-MM-YYYY"
                         readOnly
-                        disabled={
-                          isSubmitting
-                        }
-                        onClick={() => {
-
+                        onClick={() =>
                           eventDatePickerRef
                             .current
-                            ?.showPicker?.();
-
-                        }}
+                            ?.showPicker?.()
+                        }
                       />
-
 
                       <button
                         type="button"
                         className="calendar-button"
-                        disabled={
-                          isSubmitting
-                        }
-                        onClick={() => {
-
+                        onClick={() =>
                           eventDatePickerRef
                             .current
-                            ?.showPicker?.();
-
-                        }}
-                        aria-label="Choose event date"
+                            ?.showPicker?.()
+                        }
                       >
                         📅
                       </button>
@@ -3298,10 +4546,6 @@ function App() {
                         onChange={
                           handleFormChange
                         }
-                        disabled={
-                          isSubmitting
-                        }
-                        tabIndex="-1"
                       />
 
                     </div>
@@ -3309,10 +4553,12 @@ function App() {
                   </label>
 
 
-                  <label className="booking-field">
+                  <label
+                    className="booking-field"
+                  >
 
                     <span>
-                      LOCATION
+                      {t.contact.shootLocation}
                     </span>
 
                     <input
@@ -3324,9 +4570,9 @@ function App() {
                       onChange={
                         handleFormChange
                       }
-                      placeholder="City / Venue"
-                      disabled={
-                        isSubmitting
+                      placeholder={
+                        t.contact
+                          .locationPlaceholder
                       }
                     />
 
@@ -3334,8 +4580,6 @@ function App() {
 
                 </div>
 
-
-                {/* MESSAGE */}
 
                 <label
                   className={
@@ -3346,66 +4590,66 @@ function App() {
                 >
 
                   <span>
-                    TELL ME ABOUT YOUR SHOOT *
+                    {t.contact.message}
                   </span>
-
 
                   <textarea
                     name="message"
+                    rows="5"
                     value={
                       formData.message
                     }
                     onChange={
                       handleFormChange
                     }
-                    placeholder="Tell me about your event, ideas, venue, preferred style..."
-                    rows="5"
-                    disabled={
-                      isSubmitting
+                    placeholder={
+                      t.contact
+                        .messagePlaceholder
                     }
                   />
 
-
-                  {formErrors.message && (
-                    <small>
-                      {formErrors.message}
-                    </small>
-                  )}
+                  {
+                    formErrors.message && (
+                      <small>
+                        {formErrors.message}
+                      </small>
+                    )
+                  }
 
                 </label>
 
 
-                {/* STATUS */}
+                {
+                  formStatus ===
+                    "success" && (
 
-                {formStatus ===
-                  "success" && (
+                    <div
+                      className="form-message success"
+                    >
+                      {t.contact.success}
+                    </div>
 
-                  <div className="form-message success">
-
-                    ✓ WhatsApp enquiry opened successfully.
-                    Review the message in WhatsApp and tap Send.
-
-                  </div>
-
-                )}
-
-
-                {formStatus ===
-                  "error" && (
-
-                  <div className="form-message error">
-
-                    Please check the highlighted
-                    fields before continuing.
-
-                  </div>
-
-                )}
+                  )
+                }
 
 
-                {/* SUBMIT */}
+                {
+                  formStatus ===
+                    "error" && (
 
-                <div className="booking-submit-row">
+                    <div
+                      className="form-message error"
+                    >
+                      {t.contact.error}
+                    </div>
+
+                  )
+                }
+
+
+                <div
+                  className="booking-submit-row"
+                >
 
                   <button
                     type="submit"
@@ -3413,38 +4657,27 @@ function App() {
                     disabled={
                       isSubmitting
                     }
-                    style={{
-                      opacity:
-                        isSubmitting
-                          ? 0.65
-                          : 1,
-
-                      cursor:
-                        isSubmitting
-                          ? "wait"
-                          : "pointer",
-                    }}
                   >
 
                     <span>
-                      {isSubmitting
-                        ? "OPENING WHATSAPP..."
-                        : "SEND ON WHATSAPP"}
+
+                      {
+                        isSubmitting
+                          ? t.contact.opening
+                          : t.contact.send
+                      }
+
                     </span>
 
                     <b>
-                      {isSubmitting
-                        ? "•••"
-                        : "→"}
+                      →
                     </b>
 
                   </button>
 
 
                   <p>
-                    Enquiry opens directly
-                    <br />
-                    in WhatsApp
+                    {t.contact.response}
                   </p>
 
                 </div>
@@ -3465,7 +4698,9 @@ function App() {
           ref={footerRef}
         >
 
-          <div className="footer-top">
+          <div
+            className="footer-top"
+          >
 
             <a
               className="footer-brand brand-logo"
@@ -3477,6 +4712,7 @@ function App() {
               </span>
 
               <div>
+
                 <strong>
                   SHUBHAM CHINGUDE
                 </strong>
@@ -3484,42 +4720,43 @@ function App() {
                 <small>
                   PHOTOFILMS
                 </small>
+
               </div>
 
             </a>
 
 
             <p>
-              Capturing moments that deserve
-              <br />
-              to live forever.
+              {t.footer.copy}
             </p>
 
           </div>
 
 
-          <div className="footer-middle">
+          <div
+            className="footer-middle"
+          >
 
             <div>
 
               <span>
-                EXPLORE
+                {t.footer.explore}
               </span>
 
               <a href="#home">
-                Home
+                {t.nav.home}
               </a>
 
               <a href="#about">
-                About
+                {t.nav.about}
               </a>
 
               <a href="#portfolio">
-                Portfolio
+                {t.nav.portfolio}
               </a>
 
               <a href="#services">
-                Services
+                {t.nav.services}
               </a>
 
             </div>
@@ -3528,23 +4765,23 @@ function App() {
             <div>
 
               <span>
-                SERVICES
+                {t.footer.services}
               </span>
 
               <a href="#services">
-                Weddings
+                {t.footer.weddings}
               </a>
 
               <a href="#services">
-                Portraits
+                {t.footer.portraits}
               </a>
 
               <a href="#services">
-                Events
+                {t.footer.events}
               </a>
 
               <a href="#services">
-                Commercial
+                {t.footer.commercial}
               </a>
 
             </div>
@@ -3553,7 +4790,7 @@ function App() {
             <div>
 
               <span>
-                CONTACT
+                {t.footer.contact}
               </span>
 
               <a
@@ -3561,7 +4798,7 @@ function App() {
                   `mailto:${CONTACT_EMAIL}`
                 }
               >
-                Email
+                {t.contact.email}
               </a>
 
               <a
@@ -3575,25 +4812,27 @@ function App() {
               </a>
 
               <a href="#contact">
-                Booking
+                {t.contact.booking}
               </a>
 
             </div>
 
 
-            <div className="footer-big-cta">
+            <div
+              className="footer-big-cta"
+            >
 
               <span>
-                HAVE A STORY?
+                {t.footer.haveStory}
               </span>
 
               <a href="#contact">
 
-                Let's create
+                {t.footer.cta1}
 
                 <br />
 
-                something timeless
+                {t.footer.cta2}
 
                 <b>
                   ↗
@@ -3606,20 +4845,20 @@ function App() {
           </div>
 
 
-          <div className="footer-bottom">
+          <div
+            className="footer-bottom"
+          >
 
             <p>
-              © {new Date().getFullYear()} Shubham Chingude Photofilms.
-              All Rights Reserved.
+              © {new Date().getFullYear()} Shubham Chingude Photofilms. {t.footer.rights}
             </p>
 
             <p>
-              MADE WITH LIGHT,
-              EMOTION & STORIES.
+              {t.footer.made}
             </p>
 
             <a href="#home">
-              BACK TO TOP ↑
+              {t.footer.back}
             </a>
 
           </div>
@@ -3629,113 +4868,135 @@ function App() {
 
         {/* LIGHTBOX */}
 
-        {selectedIndex !== null && (
+        {
+          selectedIndex !== null && (
 
-          <div
-            className="lightbox"
-            onClick={
-              closePhoto
-            }
-          >
-
-            <button
-              className="lightbox-close"
+            <div
+              className="lightbox"
               onClick={
                 closePhoto
               }
-              aria-label="Close photo"
-            >
-              ×
-            </button>
-
-
-            <button
-              className="lightbox-arrow lightbox-prev"
-              onClick={(event) => {
-
-                event.stopPropagation();
-
-                previousPhoto();
-
-              }}
-              aria-label="Previous photo"
-            >
-              ‹
-            </button>
-
-
-            <div
-              className="lightbox-content"
-              onClick={(event) => {
-                event.stopPropagation();
-              }}
             >
 
-              <img
-                src={
-                  photos[
-                    selectedIndex
-                  ].src
+              <button
+                className="lightbox-close"
+                onClick={
+                  closePhoto
                 }
-                alt={
-                  photos[
-                    selectedIndex
-                  ].title
-                }
-              />
+              >
+                ×
+              </button>
 
 
-              <div className="lightbox-info">
+              <button
+                className="lightbox-arrow lightbox-prev"
+                onClick={
+                  (event) => {
 
-                <span>
-                  {
-                    photos[
-                      selectedIndex
-                    ].categoryLabel
+                    event.stopPropagation();
+
+                    previousPhoto();
+
                   }
-                </span>
+                }
+              >
+                ‹
+              </button>
 
-                <h2>
-                  {
+
+              <div
+                className="lightbox-content"
+                onClick={
+                  (event) =>
+                    event.stopPropagation()
+                }
+              >
+
+                <img
+                  src={
                     photos[
                       selectedIndex
+                    ].src
+                  }
+                  alt={
+                    t.photos[
+                      photos[
+                        selectedIndex
+                      ].key
                     ].title
                   }
-                </h2>
+                />
 
-                <p>
-                  {selectedIndex + 1}
-                  {" / "}
-                  {photos.length}
-                </p>
+
+                <div
+                  className="lightbox-info"
+                >
+
+                  <span>
+
+                    {
+                      t.photos[
+                        photos[
+                          selectedIndex
+                        ].key
+                      ].category
+                    }
+
+                  </span>
+
+                  <h2>
+
+                    {
+                      t.photos[
+                        photos[
+                          selectedIndex
+                        ].key
+                      ].title
+                    }
+
+                  </h2>
+
+                  <p>
+
+                    {selectedIndex + 1}
+
+                    {" / "}
+
+                    {photos.length}
+
+                  </p>
+
+                </div>
 
               </div>
 
+
+              <button
+                className="lightbox-arrow lightbox-next"
+                onClick={
+                  (event) => {
+
+                    event.stopPropagation();
+
+                    nextPhoto();
+
+                  }
+                }
+              >
+                ›
+              </button>
+
             </div>
 
-
-            <button
-              className="lightbox-arrow lightbox-next"
-              onClick={(event) => {
-
-                event.stopPropagation();
-
-                nextPhoto();
-
-              }}
-              aria-label="Next photo"
-            >
-              ›
-            </button>
-
-          </div>
-
-        )}
+          )
+        }
 
       </main>
 
     </>
+
   );
+
 }
 
 

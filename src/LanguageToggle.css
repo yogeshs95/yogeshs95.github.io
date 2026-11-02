@@ -1,0 +1,386 @@
+/* =========================================================
+   LANGUAGE SWITCH
+========================================================= */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+
+.language-switch {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  padding:
+    7px
+    11px;
+
+  border:
+    1px solid
+    rgba(
+      213,
+      163,
+      95,
+      0.2
+    );
+
+  border-radius: 30px;
+
+  background:
+    rgba(
+      0,
+      0,
+      0,
+      0.22
+    );
+
+  backdrop-filter:
+    blur(10px);
+
+  -webkit-backdrop-filter:
+    blur(10px);
+}
+
+
+.language-switch button {
+  padding: 0;
+
+  border: 0;
+
+  outline: 0;
+
+  background:
+    transparent;
+
+  color:
+    #777067;
+
+  cursor: pointer;
+
+  font-size: 8px;
+
+  font-weight: 500;
+
+  letter-spacing:
+    0.5px;
+
+  transition:
+    color 0.25s ease;
+}
+
+
+.language-switch button.active {
+  color:
+    #e1b978;
+}
+
+
+.language-switch button:hover {
+  color:
+    #f0d4a5;
+}
+
+
+.language-switch > span {
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.16
+    );
+
+  font-size: 8px;
+}
+
+
+/* =========================================================
+   SIMPLE MARATHI FONT
+========================================================= */
+
+.language-marathi
+.hero-content h1,
+
+.language-marathi
+.about-content h2,
+
+.language-marathi
+.portfolio-heading h2,
+
+.language-marathi
+.services-heading h2,
+
+.language-marathi
+.testimonials-heading h2,
+
+.language-marathi
+.contact-heading h2,
+
+.language-marathi
+.contact-info-panel h3,
+
+.language-marathi
+.portfolio-card-content h3,
+
+.language-marathi
+.service-content h3,
+
+.language-marathi
+.testimonial-card blockquote,
+
+.language-marathi
+.footer-big-cta a,
+
+.language-marathi
+.mobile-menu nav a span {
+  font-family:
+    "Noto Sans Devanagari",
+    "Mangal",
+    "Nirmala UI",
+    Arial,
+    sans-serif !important;
+
+  letter-spacing:
+    0 !important;
+}
+
+
+.language-marathi
+.hero-content h1 {
+  line-height:
+    1.12;
+}
+
+
+.language-marathi
+.about-content h2,
+
+.language-marathi
+.portfolio-heading h2,
+
+.language-marathi
+.services-heading h2,
+
+.language-marathi
+.testimonials-heading h2,
+
+.language-marathi
+.contact-heading h2 {
+  line-height:
+    1.12;
+}
+
+
+.language-marathi
+p,
+
+.language-marathi
+button,
+
+.language-marathi
+input,
+
+.language-marathi
+textarea,
+
+.language-marathi
+select,
+
+.language-marathi
+a:not(.brand-logo),
+
+.language-marathi
+span:not(.brand-logo span),
+
+.language-marathi
+small {
+  font-family:
+    "Noto Sans Devanagari",
+    "Nirmala UI",
+    "Mangal",
+    Arial,
+    sans-serif;
+}
+
+
+/* Brand remains English luxury typography */
+
+.language-marathi
+.brand-logo,
+
+.language-marathi
+.brand-logo * {
+  font-family:
+    inherit;
+}
+
+
+/* =========================================================
+   MARATHI HERO
+========================================================= */
+
+.language-marathi
+.hero-content h1 {
+  max-width:
+    780px;
+
+  font-weight:
+    500;
+}
+
+
+.language-marathi
+.description {
+  max-width:
+    500px;
+
+  line-height:
+    1.8;
+}
+
+
+.language-marathi
+.categories span {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+}
+
+
+/* =========================================================
+   MARATHI BUTTON
+========================================================= */
+
+.language-marathi
+.portfolio-button,
+
+.language-marathi
+.showreel,
+
+.language-marathi
+.booking-submit {
+  letter-spacing:
+    0.3px !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media
+(max-width: 800px) {
+
+  .header-actions {
+    gap: 9px;
+  }
+
+
+  .language-switch {
+    padding:
+      6px
+      8px;
+
+    gap: 5px;
+  }
+
+
+  .language-switch button {
+    font-size:
+      7px;
+  }
+
+
+  .language-marathi
+  .hero-content h1 {
+    font-size:
+      clamp(
+        39px,
+        11vw,
+        58px
+      ) !important;
+
+    line-height:
+      1.1 !important;
+  }
+
+
+  .language-marathi
+  .hero-content {
+    padding-bottom:
+      55px;
+  }
+
+
+  .language-marathi
+  .categories {
+    line-height:
+      2;
+  }
+
+
+  .language-marathi
+  .about-content h2,
+
+  .language-marathi
+  .portfolio-heading h2,
+
+  .language-marathi
+  .services-heading h2,
+
+  .language-marathi
+  .testimonials-heading h2,
+
+  .language-marathi
+  .contact-heading h2 {
+    font-size:
+      clamp(
+        38px,
+        10vw,
+        56px
+      ) !important;
+
+    line-height:
+      1.13 !important;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media
+(max-width: 420px) {
+
+  .language-switch {
+    padding:
+      5px
+      6px;
+  }
+
+
+  .language-switch button {
+    font-size:
+      6.5px;
+  }
+
+
+  .language-marathi
+  .hero-content h1 {
+    font-size:
+      38px !important;
+  }
+
+}
